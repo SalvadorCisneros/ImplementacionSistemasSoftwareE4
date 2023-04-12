@@ -14,24 +14,24 @@ root.render(
 
 function LoginPage() {
   return (
-    
-    
-    <div className='LoginBox'> 
-     <img id= 'logo' src='https://upload.wikimedia.org/wikipedia/commons/8/83/Ternium_Logo.svg' />
-      
-    
-      <form>
-        <h1>Inicio de sesión</h1>
-        <label>
-          Correo electrónico:
-          <input type="email" name="email" />
-        </label>
-        <label>
-          Contraseña:
-          <input type="password" name="password" />
-        </label>
-        <button type="submit">Iniciar sesión</button>
-      </form>
+    <div className="container">
+      <div className="square">
+      <img id="logo" src="TX_BIG.png" alt="Logo" />
+        <form>
+          <div className="form-group">
+            <label htmlFor="email">Correo electrónico:</label>
+            <input type="email" id="email" name="email" />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Contraseña:</label>
+            <input type="password" id="password" name="password" />
+          </div>
+          <div className="form-group">
+            <a href="#">¿Olvidaste tu contraseña?</a>
+          </div>
+          <button type="submit">Iniciar sesión</button>
+        </form>
+      </div>
     </div>
   );
 }
@@ -42,3 +42,4 @@ export default LoginPage;
 
 
 reportWebVitals();
+
