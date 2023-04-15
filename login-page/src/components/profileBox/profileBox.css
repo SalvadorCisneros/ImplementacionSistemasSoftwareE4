@@ -1,0 +1,45 @@
+.main-Container{
+    display: flex;
+    height: 45rem;
+    background-color: rgba(0, 0, 0, 0.349);
+    margin: 45px;
+    flex-direction: column;
+}
+
+.name-Container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#fotoPerfil{
+
+    width: 200px;
+    height: 200px;
+}
+
+.second-Container{
+    display: flex;
+    align-items: center;
+
+}
+
+.profile-Container{
+    display: flex;
+    width: 20%;
+    justify-content: center;
+
+}
+
+.datos-Container{
+    
+    display: flex;
+    width: 80%;
+    justify-content:center;
+    vertical-align: top;
+    flex-direction: column;
+    
+    
+    
+
+}

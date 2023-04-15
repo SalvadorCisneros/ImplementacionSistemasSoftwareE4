@@ -1,0 +1,40 @@
+body{
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(45deg, #F7A03C, #EA4D32);
+}
+
+.navBar{
+    display: flex;
+    align-items: center;
+    background-color: white;
+    justify-content: space-between;
+    
+}
+
+.logo-Container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 15px;
+    margin-left: 32px;
+ 
+    
+}
+
+.navLink-Container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 50%;
+    margin-right: 32px;
+    
+}
+
+.navLink-Container a{
+    font-size: 16px;
+    font-weight: bold;
+    color: black;
+}

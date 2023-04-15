@@ -1,13 +1,14 @@
 import React from 'react';
-import LoginPage from './index.js';
+import ProfilePage from './pages/ProfilePage/profile';
 
-function App() {
-  return (
-    <div>
-      <LoginPage />
-    </div>
-  );
+export default function App() {
+  return(
+    < ProfilePage />
+  ) 
+
+  
+  
 }
 
-export default App;
+
 
