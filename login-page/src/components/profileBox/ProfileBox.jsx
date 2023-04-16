@@ -10,6 +10,7 @@ export default function ProfileBox() {
       <div className='second-Container'>
         <div className='profile-Container'>
           <img id="fotoPerfil" src="profile-sample.png" alt="Foto de Perfil" />
+          <input type="text" id="comentario" placeholder='Comentarios'/>
         </div>
         <div className='datos-Container'>
           <h2>Datos Personales</h2>
