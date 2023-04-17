@@ -1,8 +1,12 @@
 import React from 'react';
 import './login.css';
+import { Link } from 'react-router-dom';
+
 
 
 function LoginPage() {
+
+   
     return (
       <div className="container">
         <div className="square">
@@ -19,7 +23,10 @@ function LoginPage() {
             <div className="form-group">
               <a href="#">¿Olvidaste tu contraseña?</a>
             </div>
-            <button type="submit">Iniciar sesión</button>
+            <Link to="/main">
+             <button type="submit">Iniciar sesión </button>
+            </Link>
+            
           </form>
         </div>
       </div>

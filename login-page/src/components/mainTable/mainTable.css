@@ -1,0 +1,14 @@
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(45deg, #F7A03C, #EA4D32);
+}
+
+.tabla{
+  margin-top: 15px;
+  background-color: rgba(255, 255, 255, 0.822);
+}
+
+  
