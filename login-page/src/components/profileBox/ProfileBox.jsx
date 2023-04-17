@@ -1,26 +1,28 @@
-import React from 'react'
-import "./profileBox.css"
+import React from 'react';
+import "./profileBox.css";
 
 export default function ProfileBox() {
   return (
-    <div className='main-Container'>
-      <div className='name-Container'>
+    <div className='main-container'>
+      <div className='name-container'>
         <h1>Pedro Ramirez Flores</h1>
       </div>
-      <div className='second-Container'>
-        <div className='profile-Container'>
+      <div className='second-container'>
+        <div className='profile-container'>
           <img id="fotoPerfil" src="profile-sample.png" alt="Foto de Perfil" />
-          <input type="text" id="comentario" placeholder='Comentarios'/>
+          <input type="text" id="comentario" placeholder='Comentarios' />
         </div>
-        <div className='datos-Container'>
+        <div className='datos-container'>
           <h2>Datos Personales</h2>
-          <h3>Edad:</h3>
-          <h3>Antiguedad:</h3>
-          <h3>Estudios:</h3>
-          <h3>Puesto:</h3>
-          <h3>CET:</h3>
+          <ul>
+            <li><h3>Edad:</h3></li>
+            <li><h3>Antiguedad:</h3></li>
+            <li><h3>Estudios:</h3></li>
+            <li><h3>Puesto:</h3></li>
+            <li><h3>CET:</h3></li>
+          </ul>
         </div>
       </div>
     </div>
-  )
+  );
 }

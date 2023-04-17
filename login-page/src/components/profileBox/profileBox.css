@@ -1,63 +1,94 @@
-.main-Container{
+.main-container{
     display: flex;
     height: 45rem;
-    background-color: rgba(0, 0, 0, 0.349);
+    background-color: #FFFFFF;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     margin: 45px;
     flex-direction: column;
-}
-
-.name-Container{
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .name-container{
     display: flex;
     align-items: center;
     justify-content: center;
-}
-
-#fotoPerfil{
-
+    margin-top: 30px;
+  }
+  
+  #fotoPerfil {
     width: 200px;
     height: 200px;
-}
-
-.second-Container{
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 20px; /*nuevo*/
+  }  
+  
+  .second-container{
     display: flex;
     align-items: center;
-
-}
-
-.profile-Container{
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .profile-container{
     display: flex;
     width: 20%;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-
-}
-
-#comentario{
-    display: flex;
-    align-items:flex-start;
-    justify-content:flex-start;
-    width: 50%;
-    margin-top: 32px;
-    height: 108px;
-    background-color: rgba(255, 255, 255, 0.432);
-}
-
-#comentario::placeholder{
-    color: black;
-    
-}
-
-
-.datos-Container{
-    
+  }
+  
+  #comentario {
+    width: 100%;
+    margin-top: 0px;
+    height: 150px; /*nuevo*/
+    background-color: rgba(0, 0, 0, 0.05);
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }  
+  
+  #comentario::placeholder{
+    color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .datos-container{
     display: flex;
     width: 80%;
-    justify-content:center;
+    justify-content: center;
     vertical-align: top;
     flex-direction: column;
-    
-    
-    
-
-}
+    margin-top: 30px;
+  }
+  
+  .datos-container h2{
+    margin-bottom: 15px;
+  }
+  
+  .datos-container ul{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .datos-container li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 16px;
+    align-items: center; /*nuevo*/
+  }
+  
+  .datos-container h3 {
+    margin-right: 10px; /*nuevo*/
+  }
+  
+  .main-container.shadow-box {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
