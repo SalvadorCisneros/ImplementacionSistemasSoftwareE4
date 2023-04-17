@@ -1,94 +1,64 @@
-.main-container{
-    display: flex;
-    height: 45rem;
-    background-color: #FFFFFF;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+.main-container {
+    background-color: #fff;
     border-radius: 10px;
-    margin: 45px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 80%;
+    width: auto;
+    margin: 50px auto;
+    max-height: 80vh;
+    overflow-y: auto;
   }
   
-  .name-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
+  .name-container {
+    text-align: center;
+    margin-bottom: 20px;
   }
   
   #fotoPerfil {
-    width: 200px;
-    height: 200px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit: cover;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-    margin-right: 20px; /*nuevo*/
-  }  
-  
-  .second-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 30px;
+    margin: 0 auto;
+    display: block;
   }
   
-  .profile-container{
-    display: flex;
-    width: 20%;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  #comentario {
-    width: 100%;
-    margin-top: 0px;
-    height: 150px; /*nuevo*/
-    background-color: rgba(0, 0, 0, 0.05);
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  }  
-  
-  #comentario::placeholder{
-    color: rgba(0, 0, 0, 0.5);
-  }
-  
-  .datos-container{
-    display: flex;
-    width: 80%;
-    justify-content: center;
-    vertical-align: top;
-    flex-direction: column;
-    margin-top: 30px;
-  }
-  
-  .datos-container h2{
-    margin-bottom: 15px;
-  }
-  
-  .datos-container ul{
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
+  .datos-container h2 {
+    margin-bottom: 10px;
   }
   
   .datos-container li {
-    display: flex;
-    justify-content: space-between;
+    margin-bottom: 5px;
+  }
+  
+  .opinions-container h2 {
     margin-bottom: 10px;
-    font-size: 16px;
-    align-items: center; /*nuevo*/
   }
   
-  .datos-container h3 {
-    margin-right: 10px; /*nuevo*/
+  .opinions-container p {
+    margin-bottom: 5px;
   }
   
-  .main-container.shadow-box {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 20px;
   }
+  
+  table th,
+  table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  table th {
+    background-color: #f2f2f2;
+  }
+  
+  table tr:hover {
+    background-color: #f5f5f5;
+  }
+  
   

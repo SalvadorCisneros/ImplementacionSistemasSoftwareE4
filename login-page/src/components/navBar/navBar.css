@@ -27,9 +27,15 @@ body {
 }
 
 .navLink-Container {
-  display: flex;
-  gap: 20px;
-  margin-left: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 75%;
+    gap: 35px;
+    flex-wrap: wrap;
+    margin-right: 2.5%;
+    margin-left: 2.5%;
+
 }
 
 .navLink-Container a {
