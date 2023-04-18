@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import "./mainTable.css"
+import { useNavigate } from "react-router-dom";
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -36,15 +37,24 @@ const rows = [
 ];
 
 export default function DataTable() {
+  const navigate = useNavigate();
   return (
+    
     <div className='tabla' style={{ height: 600, width: '100%' }}>
       <DataGrid
-        rows={rows}
+       
+        rows={rows} 
+        
+        
         columns={columns}
         pageSize={5}
-        rowsPerPageOptions={[5]}
+        rowsPerPageOptions={[5]}  
         checkboxSelection
+
+        onRowDoubleClick={() => navigate("/profile")}
+        
       />
+      
     </div>
   );
 }
