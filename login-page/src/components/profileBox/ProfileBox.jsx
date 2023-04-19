@@ -1,7 +1,14 @@
 import React from 'react';
 import "./profileBox.css";
+import { rows } from '../mainTable/mainTable';
+import { useLocation } from 'react-router-dom';
 
-export default function ProfileBox() {
+
+export default function ProfileBox({profile, firstName, lastName}) {
+  const location = useLocation();
+
+  
+  
   const user = {
     name: "Pedro Ramirez Flores",
     age: 30,
@@ -22,10 +29,12 @@ export default function ProfileBox() {
   };
 
   return (
+    
     <div className='main-container'>
       <div className='name-container'>
-        <h1>{user.name}</h1>
-      </div>
+        
+        <h1>{location.state.firstName} {location.state.lastName} </h1>
+      </div>i
       <div className='second-container'>
         <div className='profile-container'>
           <img id="fotoPerfil" src="profile-sample.png" alt="Foto de Perfil" />

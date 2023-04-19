@@ -1,13 +1,13 @@
 import React from 'react';
-import './navBar.css';
+import './error.css';
 import { Link } from 'react-router-dom';
 
-export default function NavBar() {
+export default function Error() {
   return (
-    <div className='navBar'>
-      <div className='logo-Container'>
-        <h1>"ERROR 404"</h1>
-      </div>
+    <div className='error'>
+     
+        <h1>ERROR 404</h1>
+      
     </div>
   );
 }

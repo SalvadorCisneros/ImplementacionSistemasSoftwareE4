@@ -1,13 +1,11 @@
 import React from "react";
-import "./profile.css";
-import NavBar from "../../components/navBar/NavBar";
-import ProfileBox from "../../components/profileBox/ProfileBox";
+import "./error.css";
+import ErrorText from "../../components/error/error";
 
-export default function ProfilePage(){
+export default function Error(){
     return (
         <>
-        <NavBar/>
-        <ProfileBox/>
+        <ErrorText/>
         </>
     
     )

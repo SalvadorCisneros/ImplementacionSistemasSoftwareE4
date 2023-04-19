@@ -6,42 +6,10 @@ body {
   background: linear-gradient(45deg, #F7A03C, #EA4D32);
 }
 
-.navBar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #FFFFFF;
-  height: 50px; /* Ajusta la altura a 50px */
-  padding: 10px 20px;
+h1 {
+  color: black;
+  font-family: verdana;
+  font-size: 300%;
+  text-align: center;
 }
 
-.logo-Container {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-}    
-
-.logo-Container img {
-  height: 40px;
-  margin-right: 10px;
-}
-
-.navLink-Container {
-  display: flex;
-  gap: 20px;
-  margin-left: 20px;
-}
-
-.navLink-Container a {
-  color: #444444;
-  font-size: 14px;
-  font-weight: bold;
-  text-decoration: none;
-  transition: all 0.2s ease-in-out;
-}
-
-.navLink-Container a:hover {
-  color: #0072C6;
-}
-
-  
