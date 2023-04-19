@@ -32,20 +32,31 @@ export default function ProfileBox({profile, firstName, lastName}) {
     
     <div className='main-container'>
       <div className='name-container'>
-        
+
         <h1>{location.state.firstName} {location.state.lastName} </h1>
-      </div>i
+      </div>
       <div className='second-container'>
         <div className='profile-container'>
           <img id="fotoPerfil" src="profile-sample.png" alt="Foto de Perfil" />
         </div>
         <div className='datos-container'>
           <h2>Datos Personales</h2>
-          <ul>
-            <li><h3>Edad: {location.state.age}</h3></li>
-            <li><h3>Correo electrónico: {location.state.email}</h3></li>
-            <li><h3>Teléfono: {location.state.tel}</h3></li>
-          </ul>
+          <table>
+            <tbody>
+              <tr>
+                <td>Edad:</td>
+                <td>{location.state.age}</td>
+              </tr>
+              <tr>
+                <td>Correo electrónico:</td>
+                <td>{location.state.email}</td>
+              </tr>
+              <tr>
+                <td>Teléfono:</td>
+                <td>{location.state.tel}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
 

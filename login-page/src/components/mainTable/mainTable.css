@@ -6,9 +6,26 @@ body {
   background: linear-gradient(45deg, #F7A03C, #EA4D32);
 }
 
-.tabla{
-  margin-top: 15px;
-  background-color: rgba(255, 255, 255, 0.822);
+.tabla {
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  max-width: 95%;
+  width: auto;
+  margin: 40px auto;
+  max-height: 80vh;
+  overflow: auto;
 }
 
+/* Estilos para la tabla */
+.MuiDataGrid-root {
+  background-color: white;
+  border-radius: 10px;
+  border: none;
+}
+
+/* Estilos para las celdas */
+.MuiDataGrid-cell {
+  border: none;
+  padding: 10px;
+}
   
