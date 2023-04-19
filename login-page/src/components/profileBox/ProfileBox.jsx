@@ -42,9 +42,9 @@ export default function ProfileBox({profile, firstName, lastName}) {
         <div className='datos-container'>
           <h2>Datos Personales</h2>
           <ul>
-            <li><h3>Edad: {user.age}</h3></li>
-            <li><h3>Correo electrónico: {user.email}</h3></li>
-            <li><h3>Teléfono: {user.phone}</h3></li>
+            <li><h3>Edad: {location.state.age}</h3></li>
+            <li><h3>Correo electrónico: {location.state.email}</h3></li>
+            <li><h3>Teléfono: {location.state.tel}</h3></li>
           </ul>
         </div>
       </div>
