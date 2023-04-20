@@ -34,7 +34,7 @@ export default function ProfileBox({profile, firstName, lastName}) {
       <div className='name-container'>
         
         <h1>{location.state.firstName} {location.state.lastName} </h1>
-      </div>i
+      </div>
       <div className='second-container'>
         <div className='profile-container'>
           <img id="fotoPerfil" src="profile-sample.png" alt="Foto de Perfil" />

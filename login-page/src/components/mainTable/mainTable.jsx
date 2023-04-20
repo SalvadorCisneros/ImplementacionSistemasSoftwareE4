@@ -2,6 +2,7 @@ import * as React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import "./mainTable.css"
 import { useNavigate } from "react-router-dom";
+import { useLocation } from 'react-router-dom';
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -73,7 +74,7 @@ export default function DataTable() {
         
         
         
-        onRowDoubleClick={(params) => navigate("/profile", 
+        onRowDoubleClick={(params) => navigate("/profile" , 
         {state:
           {
 
