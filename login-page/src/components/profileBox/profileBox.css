@@ -24,13 +24,27 @@
     display: block;
   }
   
-  .datos-container h2 {
-    margin-bottom: 10px;
+  .datos-container {
+    margin: 20px 0;
+    border-collapse: collapse;
+    font-family: 'Montserrat', sans-serif;
   }
   
-  .datos-container li {
-    margin-bottom: 5px;
+  .datos-container th {
+    background-color: #f2f2f2;
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+    font-weight: bold;
   }
+  
+  .datos-container td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+  }
+  
+  
   
   .opinions-container h2 {
     margin-bottom: 10px;
