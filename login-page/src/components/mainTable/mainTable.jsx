@@ -55,7 +55,7 @@ export let activeID
 
 export default function DataTable() {
   const navigate = useNavigate();
-
+  const [selectionModel, setSelectionModel] = React.useState([]);
   
   return (
     
@@ -69,8 +69,10 @@ export default function DataTable() {
         pageSize={5}
         rowsPerPageOptions={[5]}  
         checkboxSelection
-   
-
+        onSelectionModelChange={(newSelection) => {
+          setSelectionModel(newSelection.selectionModel);
+        }}
+        selectionModel={selectionModel}
         
         
         
@@ -87,7 +89,9 @@ export default function DataTable() {
         }})}
         
       />
-      
+      {selectionModel.map((val) => (
+        <h1>{val}</h1>
+      ))}
     </div>
   );
 }

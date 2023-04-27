@@ -10,10 +10,7 @@ export default function ProfileBox({profile, firstName, lastName}) {
   
   
   const user = {
-    name: "Pedro Ramirez Flores",
-    age: 30,
-    email: "pedro.ramirez@gmail.com",
-    phone: "555-555-5555",
+    
     opinions: 15,
     opinionsAverage: 4.5,
     comments: [
