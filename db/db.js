@@ -1,7 +1,6 @@
-import pkg from 'pg' 
-const {Client} = pkg;
+const Pool = require("pg").Pool
 
-export const client = new Client({
+const pool= new Pool({
     user: "postgres",
     host: "localhost",
     database: "TerniumDB",
@@ -9,9 +8,4 @@ export const client = new Client({
     port: 5432
 })
 
-client.connect(function(err) {
-    if (err)throw (err);
-    console.log("Conectado")
-
-    
-});
+module.exports = pool;

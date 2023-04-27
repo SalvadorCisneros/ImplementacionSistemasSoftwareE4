@@ -1,8 +1,23 @@
-import * as React from 'react';
+import React from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import "./mainTable.css"
 import { useNavigate } from "react-router-dom";
-import { useLocation } from 'react-router-dom';
+
+fetch('http://localhost:5000/datospersonales')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  });
+
+
 
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -36,6 +51,8 @@ const columns = [
       `${params.row.firstName || ''} ${params.row.lastName || ''}`,
   },
 ];
+
+
 
 export const rows = [
   { id: 1, lastName: 'Snow', firstName: 'Jon', age: 35, tel: 8126433820, email: 'jon@ternium.com.mx' },
