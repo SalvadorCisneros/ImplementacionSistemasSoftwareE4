@@ -20,7 +20,7 @@ const columns = [
     width: 90,
   },
   {
-    field: 'direccion',
+    field: 'direccion', 
     headerName: 'Direccion',
     type: 'char',
     width: 130,
@@ -45,26 +45,26 @@ const columns = [
   },
   {
     field: 'estructura_3',
-    headerName: 'Estructura3',
+    headerName: 'Estructura 3',
     type: 'char',
     width: 130,
   },
   {
     field: 'estructura_4',
-    headerName: 'Estructura2',
+    headerName: 'Estructura 4',
     type: 'char',
     width: 130,
   },
   {
     field: 'estructura_5',
-    headerName: 'Estructura3',
+    headerName: 'Estructura 5',
     type: 'char',
     width: 130,
   },
 
   {
     field: 'fullName',
-    headerName: 'Full name',
+    headerName: 'Nombre Completo',
     description: 'This column has a value getter and is not sortable.',
     sortable: false,
     width: 160,
@@ -93,7 +93,7 @@ export default function DataTable() {
       });
   }, []);
 
-  console.log(rows)
+  
  
   const [selectionModel, setSelectionModel] = React.useState([]);
 
