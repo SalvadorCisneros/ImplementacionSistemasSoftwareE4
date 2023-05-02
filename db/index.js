@@ -2,7 +2,7 @@ const express = require("express")
 const app = express()
 const cors = require("cors")
 const pool = require("./db")
-const { Connection } = require("pg")
+
 
 app.use(cors())
 app.use(express.json())
@@ -17,7 +17,22 @@ app.get("/datospersonales", async(req,res) => {
     }
 })
 
-
+app.put("/datospersonales/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { nombre, apellido, edad, telefono, estudio, direccion, universidad } = req.body;
+  
+      const updateDatosPersonales = await pool.query(
+        "UPDATE datospersonales SET nombre = $1, apellido = $2, edad = $3, telefono = $4, estudio = $5, direccion = $6, universidad = $7 WHERE id_usuario = $8",
+        [nombre, apellido, edad, telefono, estudio, direccion, universidad, id]
+      );
+  
+      res.json(updateDatosPersonales.rows[0]);
+    } catch (err) {
+      console.error(err.message);
+    }
+  });
+  
 
 
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import "./mainTable.css"
-import { useNavigate } from "react-router-dom";
+import { useNavigate,useParams } from "react-router-dom";
 
 const columns = [
   { field: 'id_usuario', headerName: 'ID', width: 70 },
@@ -169,8 +169,9 @@ export default function DataTable() {
           setSelectionModel(newSelection.selectionModel);
         }}
         selectionModel={selectionModel}
-        onRowDoubleClick={(params) => navigate("/profile", {
+        onRowDoubleClick={(params) => navigate(`/profile/${params.row.id_usuario}`, {
           state: {
+            id_usuario:params.row.id_usuario,
             nombre: params.row.nombre,
             apellido: params.row.apellido,
             edad: params.row.edad,

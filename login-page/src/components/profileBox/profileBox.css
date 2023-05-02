@@ -95,4 +95,13 @@
     background-color: #f5f5f5;
   }
   
-  
+  .boton-guardar{
+  background-color: #ff9900;
+  color: #000;
+  border-radius: 8px;
+  padding: 10px 20px;
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  cursor: pointer;
+  }

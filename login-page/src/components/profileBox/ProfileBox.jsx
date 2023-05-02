@@ -1,79 +1,69 @@
-import React from 'react';
-import "./profileBox.css";
-import { useLocation } from 'react-router-dom';
+import React, { useState } from 'react';
+import './profileBox.css';
+import { useLocation, useParams} from 'react-router-dom';
 import PDF from '../pdf/pdf';
 
 
-function convertir_a_input() {
-  // Obtener el elemento
-  var titulo = document.getElementById("titulo");
-
-  // Crear un input y establecer sus atributos
-  var input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.setAttribute("value", titulo.innerHTML);
-
-  // Reemplazar el elemento  con el input
-  titulo.parentNode.replaceChild(input, titulo);
-}
-
-function convertir_a_texto() {
-  // Obtener el elemento 
-  var titulo = document.getElementById("titulo");
-
-  // Crear texto y establecer sus atributos
-  var input = document.createElement("input");
-  input.setAttribute("type", "text");
-  input.setAttribute("value", titulo.innerHTML);
-
-  // Reemplazar el elemento input con el texto
-  titulo.parentNode.replaceChild(input, titulo);
-}
-
-
-export default function ProfileBox({profile, firstName, lastName}) {
+export default function ProfileBox() {
   const location = useLocation();
+  const { id_usuario } = useParams();
+  
+  const [nombre, setNombre] = useState(location.state.nombre);
+  const [apellido, setApellido] = useState(location.state.apellido);
+  const [edad, setEdad] = useState(location.state.edad);
 
 
+  const handleSubmit = () => {
+    const updatedState = {
+      id_usuario,
+      nombre,
+      apellido,
+      edad,
 
+    };
+    console.log(id_usuario)
+  
+    fetch(`http://localhost:5000/datospersonales/${id_usuario}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(updatedState)
+    })
+    .then(response => {
+      // TODO: handle successful response
+    })
+    .catch(error => {
+      // TODO: handle error
+    });
+  };
+  
 
   return (
-    
-    <div className='main-container'>
-      <div className='name-container'>
-        <h1>Ficha de empleado</h1>
+    <div className="main-container">
+      <button classname = "boton-guardar"onClick={handleSubmit}>Guardar</button>
+      <div className="name-container">
+        <h1 id="titulo">Ficha de empleado</h1>
       </div>
-      <div className='second-container'>
-        <div className='profile-container'>
+      <div className="second-container">
+        <div className="profile-container">
           <img id="fotoPerfil" src="profile-picture.jpg" alt="Foto de Perfil" />
         </div>
-        <div className='datos-container'>
+        <div className="datos-container">
           <h2>Datos Personales</h2>
           <table>
             <tbody>
-            <tr>
+              <tr>
                 <td>Nombre Completo:</td>
-                <td>{location.state.nombre} {location.state.apellido}</td>
+                <td>
+                  <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                  <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
+                </td>
               </tr>
               <tr>
                 <td>Edad:</td>
-                <td>{location.state.edad}</td>
-              </tr>
-              <tr>
-                <td>Telefono:</td>
-                <td>{location.state.telefono}</td>
-              </tr>
-              <tr>
-                <td>Estudio:</td>
-                <td>{location.state.estudio}</td>
-              </tr>
-              <tr>
-                <td>Dirección:</td>
-                <td>{location.state.direccion}</td>
-              </tr>
-              <tr>
-                <td>Universidad:</td>
-                <td>{location.state.universidad}</td>
+                <td><input type="text" value={edad} onChange={(e) => setEdad(e.target.value)} /></td>
+
               </tr>
              
                 
