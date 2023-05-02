@@ -13,6 +13,7 @@ const columns = [
     type: 'char',
     width: 130,
   },
+  
   {
     field: 'edad',
     headerName: 'Edad',
@@ -60,6 +61,62 @@ const columns = [
     headerName: 'Estructura 5',
     type: 'char',
     width: 130,
+  },
+
+  {
+    field: 'ano_evaluacion_anual',
+    headerName: 'Año Evaluacion Anual',
+    type: 'string',
+    width: 130,
+  },
+  {
+    field: 'curva',
+    headerName: 'Curva',
+    type: 'string',
+    width: 130,
+  },
+  {
+    field: 'upward_feedback',
+    headerName: 'Upward Feedback',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'promedio_upward_feedback',
+    headerName: 'Promedio UF (Upward Feedback)',
+    type: 'number',
+    width: 110,
+  },
+  {
+    field: 'promedio_cliente_proveedor',
+    headerName: 'Promedio CP (Cliente Proveedor)',
+    type: 'number',
+    width: 110,
+  },
+  {
+    field: 'puntuacion_comentarios',
+    headerName: 'Puntuacion Comentarios',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'performance',
+    headerName: 'Performance',
+    type: 'number',
+    width: 90,
+  },
+  
+  {
+    field: 'key_talent',
+    headerName: 'Key Talent',
+    type: 'number',
+    width: 90,
+  },
+  {
+    field: 'encuadre',
+    headerName: 'Encuadre',
+    type: 'number',
+    width: 90,
   },
 
   {
@@ -114,11 +171,28 @@ export default function DataTable() {
         selectionModel={selectionModel}
         onRowDoubleClick={(params) => navigate("/profile", {
           state: {
-            firstName: params.row.firstName,
-            lastName: params.row.lastName,
-            age: params.row.age,
-            tel: params.row.tel,
-            email: params.row.email
+            nombre: params.row.nombre,
+            apellido: params.row.apellido,
+            edad: params.row.edad,
+            telefono: params.row.telefono,
+            antigüedad: params.row.antigüedad,
+            universidad: params.row.universidad,
+            direccion: params.row.direccion,
+            estudio: params.row.estudio,  
+            potencial: params.row.potencial,
+            ano_evaluacion_anual: params.row.ano_evaluacion_anual,
+            curva: params.row.curva,
+            upward_feedback: params.row.upward_feedback,
+            promedio_upward_feedback: params.row.promedio_upward_feedback,
+            comentarios_cliente_proveedor: params.row.comentarios_cliente_proveedor,
+            promedio_cliente_proveedor: params.row.promedio_cliente_proveedor,
+            puntuacion_comentarios: params.row.puntuacion_comentarios,
+            comentarios_feedback: params.row.comentarios_feedback,
+            performance: params.row.performance,
+            key_talent: params.row.key_talent,
+            encuadre: params.row.encuadre,
+           
+            
           }
         })}
       />

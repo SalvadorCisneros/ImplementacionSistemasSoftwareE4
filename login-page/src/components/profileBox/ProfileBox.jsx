@@ -1,29 +1,13 @@
 import React from 'react';
 import "./profileBox.css";
-import { rows } from '../mainTable/mainTable';
 import { useLocation } from 'react-router-dom';
 
 
 export default function ProfileBox({profile, firstName, lastName}) {
   const location = useLocation();
 
-  
-  
-  const user = {
-    
-    opinions: 15,
-    opinionsAverage: 4.5,
-    comments: [
-      {id: 1, rating: 5, text: "Excelente desempeño en su trabajo"},
-      {id: 2, rating: 3, text: "Puede mejorar en la puntualidad"},
-      {id: 3, rating: 4, text: "Muy amable con los clientes"},
-    ],
-    jobs: [
-      {id: 1, date: "2020-2023", company: "Empresa A", position: "Gerente de Ventas"},
-      {id: 2, date: "2018-2020", company: "Empresa B", position: "Supervisor de Ventas"},
-      {id: 3, date: "2016-2018", company: "Empresa C", position: "Asesor de Ventas"},
-    ],
-  };
+
+
 
   return (
     
@@ -41,20 +25,30 @@ export default function ProfileBox({profile, firstName, lastName}) {
             <tbody>
             <tr>
                 <td>Nombre Completo:</td>
-                <td>{location.state.firstName} {location.state.lastName}</td>
+                <td>{location.state.nombre} {location.state.apellido}</td>
               </tr>
               <tr>
                 <td>Edad:</td>
-                <td>{location.state.age}</td>
+                <td>{location.state.edad}</td>
               </tr>
               <tr>
-                <td>Correo electrónico:</td>
-                <td>{location.state.email}</td>
+                <td>Telefono:</td>
+                <td>{location.state.telefono}</td>
               </tr>
               <tr>
-                <td>Teléfono:</td>
-                <td>{location.state.tel}</td>
+                <td>Estudio:</td>
+                <td>{location.state.estudio}</td>
               </tr>
+              <tr>
+                <td>Dirección:</td>
+                <td>{location.state.direccion}</td>
+              </tr>
+              <tr>
+                <td>Universidad:</td>
+                <td>{location.state.universidad}</td>
+              </tr>
+             
+                
             </tbody>
           </table>
         </div>
@@ -62,8 +56,14 @@ export default function ProfileBox({profile, firstName, lastName}) {
 
       <div className='opinions-container'>
         <h2>Cliente Proveedor</h2>
-        <p>Opiniones: {user.opinions}</p>
-        <p>Promedio de Opinión: {user.opinionsAverage}</p>
+        <div className='client-text-container'>
+
+        <p>Año de Evaluacion: {location.state.ano_evaluacion_anual}</p>
+        <p>Performance: {location.state.performance}</p>
+        <p>Curva: {location.state.curva}</p>
+        <p>Opiniones: {location.state.upward_feedback}</p>
+        <p>Promedio de Opinión: {location.state.promedio_upward_feedback}</p>
+        </div>
         <table>
           <thead>
             <tr>
@@ -72,12 +72,17 @@ export default function ProfileBox({profile, firstName, lastName}) {
             </tr>
           </thead>
           <tbody>
-            {user.comments.map(comment => (
-              <tr key={comment.id}>
-                <td>{comment.rating}</td>
-                <td>{comment.text}</td>
+            
+              <tr>
+                <td>{location.state.promedio_cliente_proveedor}</td>
+                <td>{location.state.comentarios_cliente_proveedor}</td>
+
               </tr>
-            ))}
+              <tr>
+                <td>{location.state.puntuacion_comentarios}</td>
+                <td>{location.state.comentarios_feedback}</td>
+              </tr>
+            
           </tbody>
         </table>
       </div>
@@ -87,19 +92,19 @@ export default function ProfileBox({profile, firstName, lastName}) {
         <table>
           <thead>
             <tr>
-              <th>Fecha</th>
-              <th>Empresa</th>
-              <th>Puesto</th>
+              <th>Performance</th>
+              <th>Key Talent</th>
+              <th>Encuadre</th>
             </tr>
           </thead>
           <tbody>
-            {user.jobs.map(job => (
-              <tr key={job.id}>
-                <td>{job.date}</td>
-                <td>{job.company}</td>
-                <td>{job.position}</td>
+            
+              <tr>
+                <td>{location.state.performance}</td>
+                <td>{location.state.key_talent}</td>
+                <td>{location.state.encuadre}</td>
               </tr>
-            ))}
+           
           </tbody>
         </table>
       </div>
