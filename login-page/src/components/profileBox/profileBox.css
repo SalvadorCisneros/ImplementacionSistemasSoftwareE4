@@ -26,8 +26,18 @@
 
   .client-text-container{
     display: flex;
-    align-items: center;
+    align-items:start;
+    flex-direction: column;
     flex-wrap: wrap;
+    justify-content: space-between;
+    
+  }
+  .client-text-container{
+    display: flex;
+    align-items:start;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
     
   }
   

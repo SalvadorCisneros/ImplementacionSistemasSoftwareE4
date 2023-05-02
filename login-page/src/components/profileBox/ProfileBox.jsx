@@ -1,6 +1,34 @@
 import React from 'react';
 import "./profileBox.css";
 import { useLocation } from 'react-router-dom';
+import PDF from '../pdf/pdf';
+
+
+function convertir_a_input() {
+  // Obtener el elemento
+  var titulo = document.getElementById("titulo");
+
+  // Crear un input y establecer sus atributos
+  var input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.setAttribute("value", titulo.innerHTML);
+
+  // Reemplazar el elemento  con el input
+  titulo.parentNode.replaceChild(input, titulo);
+}
+
+function convertir_a_texto() {
+  // Obtener el elemento 
+  var titulo = document.getElementById("titulo");
+
+  // Crear texto y establecer sus atributos
+  var input = document.createElement("input");
+  input.setAttribute("type", "text");
+  input.setAttribute("value", titulo.innerHTML);
+
+  // Reemplazar el elemento input con el texto
+  titulo.parentNode.replaceChild(input, titulo);
+}
 
 
 export default function ProfileBox({profile, firstName, lastName}) {
@@ -58,11 +86,11 @@ export default function ProfileBox({profile, firstName, lastName}) {
         <h2>Cliente Proveedor</h2>
         <div className='client-text-container'>
 
-        <p>Año de Evaluacion: {location.state.ano_evaluacion_anual}</p>
-        <p>Performance: {location.state.performance}</p>
-        <p>Curva: {location.state.curva}</p>
-        <p>Opiniones: {location.state.upward_feedback}</p>
-        <p>Promedio de Opinión: {location.state.promedio_upward_feedback}</p>
+        <p> <b>Año de Evaluacion: </b>{location.state.ano_evaluacion_anual}</p>
+        <p> <b>Performance: </b>{location.state.performance}</p>
+        <p> <b>Curva:</b> {location.state.curva}</p>
+        <p> <b>Opiniones:</b>  {location.state.upward_feedback}</p>
+        <p> <b>Promedio de Opinión:</b> {location.state.promedio_upward_feedback}</p>
         </div>
         <table>
           <thead>
@@ -108,6 +136,10 @@ export default function ProfileBox({profile, firstName, lastName}) {
           </tbody>
         </table>
       </div>
+
+        <>
+        <PDF/>
+        </>
     </div>
   );
 }
