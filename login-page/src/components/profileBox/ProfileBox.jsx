@@ -11,7 +11,11 @@ export default function ProfileBox() {
   const [nombre, setNombre] = useState(location.state.nombre);
   const [apellido, setApellido] = useState(location.state.apellido);
   const [edad, setEdad] = useState(location.state.edad);
+  const [editMode, setEditMode] = useState(false);
 
+  const handleEdit = () => {
+    setEditMode(true);
+  };
 
   const handleSubmit = () => {
     const updatedState = {
@@ -36,12 +40,17 @@ export default function ProfileBox() {
     .catch(error => {
       // TODO: handle error
     });
+    setEditMode(false);
   };
   
 
   return (
     <div className="main-container">
-      <button classname = "boton-guardar"onClick={handleSubmit}>Guardar</button>
+     {editMode ? (
+        <button id = "boton-guardar" onClick={handleSubmit}>Guardar datos</button>
+      ) : (
+        <button id = "boton-modificar"onClick={handleEdit}>Modificar datos</button>
+      )}
       <div className="name-container">
         <h1 id="titulo">Ficha de empleado</h1>
       </div>
@@ -55,18 +64,23 @@ export default function ProfileBox() {
             <tbody>
               <tr>
                 <td>Nombre Completo:</td>
-                <td>
-                  <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                  <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
-                </td>
+                {editMode ? (
+                  <td>
+                    <input type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                    <input type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
+                  </td>
+                ) : (
+                  <td>{nombre} {apellido}</td>
+                )}
               </tr>
               <tr>
                 <td>Edad:</td>
-                <td><input type="text" value={edad} onChange={(e) => setEdad(e.target.value)} /></td>
-
+                {editMode ? (
+                  <td><input type="text" value={edad} onChange={(e) => setEdad(e.target.value)} /></td>
+                ) : (
+                  <td>{edad}</td>
+                )}
               </tr>
-             
-                
             </tbody>
           </table>
         </div>
