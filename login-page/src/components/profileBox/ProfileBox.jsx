@@ -27,6 +27,9 @@ export default function ProfileBox() {
     setEditMode(true);
   };
 
+  const handleEdit = () => {
+    setEditMode(true);
+  };
 
   const handleSubmit = () => {
     const updatedState = {
