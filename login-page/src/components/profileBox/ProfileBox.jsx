@@ -23,9 +23,7 @@ export default function ProfileBox() {
   const [promedio_upward_feedback, setPromedio_upward_feedback] = useState(location.state.promedio_upward_feedback);
   const [editMode, setEditMode] = useState(false);
   
-  const handleEdit = () => {
-    setEditMode(true);
-  };
+
 
   const handleEdit = () => {
     setEditMode(true);
