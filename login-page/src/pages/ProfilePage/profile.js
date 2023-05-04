@@ -11,7 +11,6 @@ export default function ProfilePage(){
         <NavBar/>
         <ProfileBox />
         
-        
         </>
     
     )

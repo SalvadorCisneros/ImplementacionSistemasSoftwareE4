@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import './profileBox.css';
 import { useLocation, useParams} from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 import PDF from '../pdf/pdf';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 export default function ProfileBox() {
@@ -22,14 +27,25 @@ export default function ProfileBox() {
   const [upward_feedback, setUpward_feedback] = useState(location.state.upward_feedback);
   const [promedio_upward_feedback, setPromedio_upward_feedback] = useState(location.state.promedio_upward_feedback);
   const [editMode, setEditMode] = useState(false);
+  const [showPdf, setShowPdf] = useState(false);
+  const [downloadType, setDownloadType] = useState(null);
   
 
+  const handleShowPdf = () => {
+    setShowPdf(true);
+  };
+
+  const handleDismiss = () => {
+    setShowPdf(false);
+    setDownloadType(null);
+  };
 
   const handleEdit = () => {
     setEditMode(true);
   };
 
   const handleSubmit = () => {
+   
     const updatedState = {
       id_usuario,
       nombre,
@@ -59,6 +75,34 @@ export default function ProfileBox() {
       body: JSON.stringify(updatedState)
     })
     .then(response => {
+      toast.success( 
+        <div className="popup">
+        <div className="popup-header">
+          <h3>¡Cambios de datos exitosos!</h3>
+        </div>
+        <p className="popup-message">Los datos se han cambiado de manera exitosa.</p>
+        <button className="popup-button" onClick={() => toast.dismiss()}>
+          OK
+        </button>
+      </div>,  {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      position: 'top-center',
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      style: {
+        background: '#ffffff',
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        color: "black"
+        }
+      });
       // TODO: handle successful response
     })
     .catch(error => {
@@ -75,6 +119,21 @@ export default function ProfileBox() {
       ) : (
         <button id = "boton-modificar"onClick={handleEdit}>Modificar datos</button>
       )}
+
+      <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+      />
+
+       
       <div className="name-container">
         <h1 id="titulo">Ficha de empleado</h1>
       </div>
@@ -83,7 +142,7 @@ export default function ProfileBox() {
           <img id="fotoPerfil" src={process.env.PUBLIC_URL + '/profile-picture.jpg'} alt="Foto de Perfil" />
         </div>
         <div className="datos-container">
-          <h2>Datos Personales</h2>
+          <h2 id='DP'>Datos Personales</h2>
           <table>
             <tbody>
               <tr>
@@ -151,10 +210,11 @@ export default function ProfileBox() {
       </div>
 
       <div className='opinions-container'>
-        <h2>Cliente Proveedor</h2>
+        <h2 id='CP'>Cliente Proveedor</h2>
         <div className='client-text-container'>
 
         <p><b>Año Evaluacion Anual:</b> {editMode ? (
+          
           <input id='inp' type="text" value={ano_evaluacion_anual} onChange={(e) => setAno_evaluacion_anual(e.target.value)} />
         ) : (
           ano_evaluacion_anual
@@ -204,7 +264,7 @@ export default function ProfileBox() {
       </div>
 
       <div className='job-container'>
-        <h2>Trayectoria Laboral</h2>
+        <h2 id='TL'>Trayectoria Laboral</h2>
         <table>
           <thead>
             <tr>
@@ -225,7 +285,27 @@ export default function ProfileBox() {
         </table>
       </div>
 
-        
+      <div className='pdfContainer'>
+  <button className="pdf-button" onClick={handleShowPdf}>
+    {showPdf ? 'Descargar ficha de empleado' : 'Visualizar ficha de empleado'}
+  </button>
+  {showPdf && (
+    <div className="pdf-overlay">
+      <div className="pdf-wrapper">
+        <button className="pdf-close-button" onClick={handleDismiss}>Cerrar</button>
+        <PDF downloadType={downloadType} />
+      </div>
+    </div>
+  )}
+  {showPdf && (
+    <div className="pdf-download-options">
+      <select>
+        <option value="pdf">Descargar como PDF</option>
+        <option value="excel">Descargar como Excel</option>
+      </select>
+    </div>
+  )}
+</div>
     </div>
   );
 }
