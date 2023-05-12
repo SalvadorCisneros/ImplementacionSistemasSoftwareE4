@@ -3,6 +3,7 @@ import './profileBox.css';
 import { useLocation, useParams} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
+import ReactPDF from "@react-pdf/renderer";
 import PDF from '../pdf/pdf';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -110,6 +111,7 @@ export default function ProfileBox() {
     });
     setEditMode(false);
   };
+  
   
 
   return (

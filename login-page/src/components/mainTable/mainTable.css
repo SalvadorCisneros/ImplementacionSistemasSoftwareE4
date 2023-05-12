@@ -1,9 +1,18 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;900&display=swap');
+
+
+
 body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Montserrat', sans-serif;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
   background: linear-gradient(45deg, #F7A03C, #EA4D32);
+
+
+
 }
 
 .tabla {
@@ -12,10 +21,31 @@ body {
   max-width: 95%;
   width: auto;
   margin: 40px auto;
-  max-height: 80vh;
+  height: 80vh;
   overflow: auto;
+ 
 }
 
+.key.s {
+  background-color: rgba(4, 255, 4, 0.412) !important;
+}
+.key.n {
+  background-color: rgba(255, 0, 0, 0.316) !important;
+}
+
+.MuiDataGrid-toolbarContainer{
+  padding: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  height: 5rem;
+}
+
+.css-v4u5dn-MuiInputBase-root-MuiInput-root{
+  content: none;
+  padding-bottom: 5px;
+}
 /* Estilos para la tabla */
 .MuiDataGrid-root {
   background-color: white;
@@ -26,6 +56,60 @@ body {
 /* Estilos para las celdas */
 .MuiDataGrid-cell {
   border: none;
-  padding: 10px;
+ 
 }
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@900&display=swap');
+.MuiDataGrid-columnHeader{
+ 
   
+  font-family: 'Roboto', sans-serif;
+  font-weight: 900;
+  font-size: 16px;
+  background-color: rgba(0, 0, 0, 0.221);
+}
+
+
+
+.checkbox input[type="checkbox"] {
+  
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ width: 1px;
+ height: 1px;
+border-radius: 50%;
+  appearance: none; /* Remove default checkbox appearance */
+ /* Add border */
+   /* Add rounded corners */
+
+  transition: all 0.15s ease-in-out; /* Add transition */
+}
+
+.checkbox input[type="checkbox"]:checked {
+  border-color: rgba(0, 0, 0, 0.389);
+  background-color: #2196f3; 
+  width: 1px;
+  height: 1px;
+  
+ /* Change border color when checked */
+   /* Add background color when checked */
+}
+
+.checkbox input[type="checkbox"]:checked:after {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: "\2714"; /* Código unicode para una palomita */
+  font-size: 12px; /* Tamaño de la fuente */
+  color: #fff;
+   /* Color de la palomita */
+  width: 1px;
+  height: 1px;
+}
+
+
+
+#descarga{
+  position: fixed;
+}

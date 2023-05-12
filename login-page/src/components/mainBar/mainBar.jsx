@@ -12,7 +12,7 @@ export default function MainBar() {
         
       </div>
       <div className='mainLink-Container'>
-         <input className='search' type="search" />
+         
           <Link to="/">
             <a href="*">Cerrar Sesion</a>
           </Link>

@@ -70,7 +70,7 @@ export default function PDF() {
 
 
   return (
-    <PDFViewer width={"650px"} height={"750px"}>
+    
       <Document title= {ids} file="/ficha.pdf">
         <Page size="A4">
           <View>
@@ -239,7 +239,6 @@ export default function PDF() {
         </Page>
       </Document>
 
-    </PDFViewer>
 
 
 
