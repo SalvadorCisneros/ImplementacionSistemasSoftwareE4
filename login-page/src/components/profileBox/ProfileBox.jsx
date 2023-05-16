@@ -3,9 +3,10 @@ import './profileBox.css';
 import { useLocation, useParams} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
-import ReactPDF from "@react-pdf/renderer";
 import PDF from '../pdf/pdf';
+
 import 'react-toastify/dist/ReactToastify.css';
+
 
 
 
@@ -18,7 +19,7 @@ export default function ProfileBox() {
   const [apellido, setApellido] = useState(location.state.apellido);
   const [edad, setEdad] = useState(location.state.edad);
   const [telefono, setTelefono] = useState(location.state.telefono);
-  const [antigüedad, setAntigüedad] = useState(location.state.antigüedad);
+  const [antiguedad, setAntiguedad] = useState(location.state.antiguedad);
   const [universidad, setUniversidad] = useState(location.state.universidad);
   const [direccion, setDireccion] = useState(location.state.direccion);
   const [estudio, setEstudio] = useState(location.state.estudio);
@@ -53,7 +54,7 @@ export default function ProfileBox() {
       apellido,
       edad,
       telefono,
-      antigüedad,
+      antiguedad,
       universidad,
       direccion,
       estudio,
@@ -169,9 +170,9 @@ export default function ProfileBox() {
               <tr>
         <td>Antigüedad:</td>
         {editMode ? (
-          <td id='inp_box'><input id='inp' type="text" value={antigüedad} onChange={(e) => setAntigüedad(e.target.value)} /></td>
+          <td id='inp_box'><input id='inp' type="text" value={antiguedad} onChange={(e) => setAntiguedad(e.target.value)} /></td>
         ) : (
-          <td>{antigüedad}</td>
+          <td>{antiguedad}</td>
         )}
       </tr>
       <tr>

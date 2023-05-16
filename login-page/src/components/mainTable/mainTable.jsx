@@ -1,30 +1,151 @@
   import { DataGrid, GridToolbar, GridToolbarQuickFilter} from "@mui/x-data-grid";
   import { useState, useEffect } from "react";
   import "./mainTable.css"
+  import * as XLSX from 'xlsx';
   import clsx from 'clsx';
   import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
-  import { saveAs } from 'file-saver';
   import { useNavigate,useParams } from "react-router-dom";
-  import PDF from "../pdf/pdf2";
+  import PDFDocument from "../pdf/PDFDocument";
+  import JSZip from "jszip";
+  import PDF from "../pdf/PDFDocument";
 
 
   export default function MainTable() {
     const [checkedRows, setCheckedRows] = useState([]);
     const navigate = useNavigate();
     const [rows, setRows] = useState([]);
-    const [pdfFile, setPdfFile] = useState(null);
-  const [pdfUrl, setPdfUrl] = useState(null);
+    const [excelRows, setExcelRows] = useState([]);
+    const [excelRows2, setExcelRows2] = useState([]);
+    
 
-    function PDFDownload({ data }) {
-      return (
-        <PDFDownloadLink document={<PDF data={data} />} fileName="usuarios.pdf">
-          {({ blob, url, loading, error }) =>
-            loading ? "Generando PDF..." : "Descargar PDF"
-          }
-        </PDFDownloadLink>
-      );
-    }
+    const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        uploadExcelData(file);
+      }
+    };
+    
+    const uploadExcelData = (file) => {
+      const reader = new FileReader();
+    
+      reader.onload = (event) => {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const excelRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+        setExcelRows(excelRows); // Set the excelRows state variable
+      };
+    
+      reader.readAsArrayBuffer(file);
+    };
+    
+  
+    const handleUpload = () => {
+      const requestBody = {
+        rows: excelRows.slice(1).map((row) => ({
+          id_usuario: row[0],
+          correo_ternium: row[1],
+          contrasena: row[2]
+        }))
+      };
+    
+      fetch("http://localhost:5000/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Data uploaded successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error uploading data:", error);
+        });
+    };
 
+
+    const handleFileChange2 = (event) => {
+      const file = event.target.files[0];
+      if (file) {
+        uploadExcelData2(file);
+      }
+    };
+    
+    const uploadExcelData2 = (file) => {
+      const reader = new FileReader();
+    
+      reader.onload = (event) => {
+        const data = new Uint8Array(event.target.result);
+        const workbook = XLSX.read(data, { type: "array" });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        const excelRows2 = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+    
+        setExcelRows2(excelRows2); // Set the excelRows2 state variable
+      };
+    
+      reader.readAsArrayBuffer(file);
+    };
+    
+    // ...
+    
+    const handleUpload2 = () => {
+      const requestBody = {
+        datosPersonales: excelRows2.slice(1).map((row) => ({
+          id_usuario: row[0],
+          nombre: row[1],
+          apellido: row[2],
+          antiguedad: row[3],
+          edad: row[4],
+          direccion: row[5],
+          estudio: row[6],
+          telefono: row[7],
+          universidad: row[8],
+          estructura_3: row[9],
+          estructura_4: row[10],
+          estructura_5: row[11],
+        })),
+        clienteProveedor: excelRows2.slice(1).map((row) => ({
+          id_usuario: row[0],
+          ano_evaluacion_anual: row[12],
+          curva: row[13],
+          upward_feedback: row[14],
+          promedio_upward_feedback: row[15],
+          comentarios_cliente_proveedor: row[16],
+          promedio_cliente_proveedor: row[17],
+          puntuacion_comentarios: row[18],
+          comentarios_feedback: row[19],
+        })),
+        trayectoriaLaboral: excelRows2.slice(1).map((row) => ({
+          id_usuario: row[0],
+          performance: row[20],
+          key_talent: row[21],
+          encuadre: row[22],
+        })),
+      };
+    
+      fetch("http://localhost:5000/empleados", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Data uploaded successfully:", data);
+        })
+        .catch((error) => {
+          console.error("Error uploading data:", error);
+        });
+    };
+    
+      
+    
+    
+    
     useEffect(() => {
       const newCheckedRows = rows.filter((row) => row.selected);
       setCheckedRows(newCheckedRows);
@@ -43,20 +164,44 @@
         });
     }, []);
 
-    const handleChange = (id) => {
-      const index = rows.findIndex((row) => row.id_usuario === id);
+    const handleChange = (datos) => {
+      const index = rows.findIndex((row) => row.id_usuario === datos);
       const newRows = [...rows];
       newRows[index].selected = !newRows[index].selected;
       const newCheckedRows = newRows.filter((row) => row.selected);
       setCheckedRows(newCheckedRows);
       console.log("IDs de usuarios seleccionados:");
-      newCheckedRows.forEach((id) => console.log(id));
+      newCheckedRows.forEach((datos) => console.log(datos));
       
-      <PDF data={newCheckedRows} />
 
       
     };
 
+    const handleZipDownload = async () => {
+      const zip = new JSZip();
+  
+      const promises = checkedRows.map((row) => {
+        return PDF(<PDFDocument id={row.id} />).toBlob();
+      });
+  
+      const blobs = await Promise.all(promises);
+  
+      for (let i = 0; i < blobs.length; i++) {
+        const { id } = checkedRows[i];
+        const blob = blobs[i];
+        const filename = `row_${id}.pdf`;
+        zip.file(filename, blob);
+      }
+      const content = await zip.generateAsync({ type: "blob" });
+  
+      const anchor = document.createElement("a");
+      anchor.download = "pdfs.zip";
+      anchor.style.display = "none";
+      anchor.href = URL.createObjectURL(content);
+      document.body.appendChild(anchor);
+      anchor.click();
+      document.body.removeChild(anchor);
+    };
     
     
 
@@ -82,10 +227,11 @@
         { field: 'nombre', headerName: 'Nombre', width: 130 },
         { field: 'apellido', headerName: 'Apellido', width: 130 },
         {
-          field: 'antigüedad',
+          field: 'antiguedad',
           headerName: 'Antiguedad',
-          type: 'char',
+          type: 'date',
           width: 130,
+          valueGetter: (params) => new Date(params.value),
         },
         
         {
@@ -97,7 +243,7 @@
         {
           field: 'direccion', 
           headerName: 'Direccion',
-          type: 'char',
+          type: 'string',
           width: 130,
         },
         {
@@ -183,7 +329,7 @@
         {
           field: 'key_talent',
           headerName: 'Key Talent',
-          type: 'number',
+          type: 'string',
           width: 90,
           cellClassName: (params) => {
             if (params.value == null) {
@@ -214,15 +360,21 @@
         },
       ];    
 
-      
-
-      
-      
       return (
         
         <div className="tabla" style={{ width: "100%" }}>
+          <div>
+          <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+          <button onClick={handleUpload}>Upload</button>
+          </div>
+
+          <div>
+          <input type="file" accept=".xlsx,.xls" onChange={handleFileChange2} />
+          <button onClick={handleUpload2}>Upload</button>
+          </div>
+
           
-          <div><button onClick={PDFDownload}>Descargar PDF</button></div>
+          
           <DataGrid
             getRowId={(row) => row.id_usuario}
             slots={{ toolbar: GridToolbar, className: "barra" }}
@@ -255,7 +407,7 @@
                   apellido: params.row.apellido,
                   edad: params.row.edad,
                   telefono: params.row.telefono,
-                  antigüedad: params.row.antigüedad,
+                  antiguedad: params.row.antiguedad,
                   universidad: params.row.universidad,
                   direccion: params.row.direccion,
                   estudio: params.row.estudio,
@@ -293,7 +445,12 @@
               </div>
             )}
           />
-          
+          <div>
+          <button onClick={handleZipDownload}>
+            Download PDFs for selected rows as .zip file
+          </button>
+          </div>
         </div>
       );
     };
+  

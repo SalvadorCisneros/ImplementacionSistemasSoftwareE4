@@ -3,7 +3,6 @@ body {
   padding: 0;
   height: 100%;
   font-family: 'Montserrat', sans-serif;
-  background: linear-gradient(45deg, #F7A03C, #EA4D32);
 }
 
 .mainBar {
@@ -12,7 +11,7 @@ body {
   align-items: center;
   background-color: #FFFFFF;
   height: 50px; /* Ajusta la altura a 50px */
-  padding: 10px 20px;
+  padding: 15px 20px;
 }
 
 
@@ -33,14 +32,28 @@ img {
 }
 
 
-a {
-  color: #444444;
+.cerrar {
+  background-color: #F7A03C;
+  color: #fcfcfc;
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
   transition: all 0.2s ease-in-out;
+  padding:1rem;
+  border-radius: 10px;
+  letter-spacing: 0.5px;
 }
 
+.cerrar a{
+   color: #FFFFFF;
+}
+
+.cerrar:hover{
+  background-color: #EA4D32;
+  color: #fcfcfc;
+  padding:1rem;
+
+}
 
 
   

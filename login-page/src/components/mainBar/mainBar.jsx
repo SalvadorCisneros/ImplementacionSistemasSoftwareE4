@@ -14,7 +14,10 @@ export default function MainBar() {
       <div className='mainLink-Container'>
          
           <Link to="/">
+            <div className='cerrar'>
             <a href="*">Cerrar Sesion</a>
+            </div>
+            
           </Link>
           
       </div>

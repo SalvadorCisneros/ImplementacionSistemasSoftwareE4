@@ -126,7 +126,7 @@ export default function PDF() {
                         <Text style={styles.tableCell}>Antiguedad:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.antigüedad}</Text> 
+                        <Text style={styles.tableCell}>{location.state.antiguedad}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
