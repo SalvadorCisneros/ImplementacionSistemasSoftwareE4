@@ -45,15 +45,23 @@ app.put("/datospersonales/:id", async (req, res) => {
     try {
       const { rows } = req.body;
   
-      const empleadosInsertPromises = rows.map((row) => {
+      const insertUsuariosPromises = rows.map((row) => {
+        const { id_usuario, correo_ternium, contrasena } = row;
+        return pool.query(
+          "INSERT INTO usuarios(id_usuario, correo_ternium, contrasena) VALUES ($1, $2, $3)",
+          [id_usuario, correo_ternium, contrasena]
+        );
+      });
+  
+      const insertEmpleadosPromises = rows.map((row) => {
         const { id_usuario } = row;
         return pool.query(
-          "INSERT INTO empleados (id_usuario) VALUES ($1)",
+          "INSERT INTO empleados(id_usuario) VALUES ($1)",
           [id_usuario]
         );
       });
   
-      Promise.all(empleadosInsertPromises)
+      Promise.all([...insertUsuariosPromises, ...insertEmpleadosPromises])
         .then(() => {
           res.json({ message: "Data inserted successfully" });
         })
@@ -67,6 +75,7 @@ app.put("/datospersonales/:id", async (req, res) => {
     }
   });
   
+ 
   
   app.post("/empleados", async (req, res) => {
     const { datosPersonales, clienteProveedor, trayectoriaLaboral } = req.body;
@@ -87,10 +96,10 @@ app.put("/datospersonales/:id", async (req, res) => {
   
       if (Array.isArray(clienteProveedor)) {
         for (const row of clienteProveedor) {
-          const { id_usuario, ano_evaluacion_anual, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback } = row;
+          const { id_usuario, ano_evaluacion_anual,potencial, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback } = row;
           await pool.query(
-            "INSERT INTO clienteproveedor (id_usuario, ano_evaluacion_anual, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-            [id_usuario, ano_evaluacion_anual, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback]
+            "INSERT INTO clienteproveedor (id_usuario, ano_evaluacion_anual, potencial, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)",
+            [id_usuario, ano_evaluacion_anual,potencial, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback]
           );
         }
       }

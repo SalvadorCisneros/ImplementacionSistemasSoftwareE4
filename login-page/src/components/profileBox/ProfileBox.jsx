@@ -21,6 +21,7 @@ export default function ProfileBox() {
   const [telefono, setTelefono] = useState(location.state.telefono);
   const [antiguedad, setAntiguedad] = useState(location.state.antiguedad);
   const [universidad, setUniversidad] = useState(location.state.universidad);
+  const [potencial, setPotencial] = useState(location.state.potencial);
   const [direccion, setDireccion] = useState(location.state.direccion);
   const [estudio, setEstudio] = useState(location.state.estudio);
   const [ano_evaluacion_anual, setAno_evaluacion_anual] = useState(location.state.ano_evaluacion_anual);
@@ -54,6 +55,7 @@ export default function ProfileBox() {
       apellido,
       edad,
       telefono,
+      potencial,
       antiguedad,
       universidad,
       direccion,
@@ -222,10 +224,10 @@ export default function ProfileBox() {
         ) : (
           ano_evaluacion_anual
         )}</p>
-        <p><b>Performance:</b> {editMode ? (
-          <input id='inp' type="text" value={performance} onChange={(e) => setPerformance(e.target.value)} />
+        <p><b>Potencial:</b> {editMode ? (
+          <input id='inp' type="text" value={potencial} onChange={(e) => setPotencial(e.target.value)} />
         ) : (
-          performance
+          potencial
         )}</p>
         <p><b>Curva:</b> {editMode ? (
           <input id='inp' type="text" value={curva} onChange={(e) => setCurva(e.target.value)} />

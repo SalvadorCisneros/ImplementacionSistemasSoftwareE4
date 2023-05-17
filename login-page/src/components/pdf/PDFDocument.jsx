@@ -60,11 +60,24 @@ const styles = StyleSheet.create({
 
 });
 
+const PDFDocument = ({ id_usuario }) => {
+  return (
+    <Document>
+      <Page>
+        <View>
+          <Text>{`Row ID: ${id_usuario}`}</Text>
+        </View>
+      </Page>
+    </Document>
+  );
+};
+
+
 Font.register({ family: 'Roboto', src: 'https://fonts.gstatic.com/s/questrial/v13/QdVUSTchPBm7nuUeVf7EuStkm20oJA.ttf' });
 Font.register({ family: 'Sofis', src: "https://fonts.gstatic.com/s/cairo/v20/SLXVc1nY6HkvangtZmpcWmhzfH5lWWgsQQ.ttf" });
 
 
-export default function PDF() {
+const PDFDocuments = ({ id_usuario }) => {
   const location = useLocation();
   var ids = location.state.id_usuario+'_FichaEmpleado'
 
@@ -110,7 +123,7 @@ export default function PDF() {
                         <Text style={styles.tableCell}>Nombre Completo:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.nombre} {location.state.apellido}</Text> 
+                        <Text style={styles.tableCell}>{id_usuario.nombre} {id_usuario.apellido}</Text> 
                       </View>   
                     </View>
                     <View style={styles.tableRow}> 
@@ -245,3 +258,4 @@ export default function PDF() {
 
   );
 }
+export default PDFDocument;

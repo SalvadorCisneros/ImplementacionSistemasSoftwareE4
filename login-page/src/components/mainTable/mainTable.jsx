@@ -3,11 +3,12 @@
   import "./mainTable.css"
   import * as XLSX from 'xlsx';
   import clsx from 'clsx';
-  import { PDFDownloadLink, Document, Page } from "@react-pdf/renderer";
-  import { useNavigate,useParams } from "react-router-dom";
+  import { useNavigate, useParams } from "react-router-dom";
   import PDFDocument from "../pdf/PDFDocument";
   import JSZip from "jszip";
-  import PDF from "../pdf/PDFDocument";
+  import { pdf } from "@react-pdf/renderer";
+  import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 
   export default function MainTable() {
@@ -59,10 +60,64 @@
       })
         .then((response) => response.json())
         .then((data) => {
-          console.log("Data uploaded successfully:", data);
+          toast.success( 
+            <div className="popup">
+            <div className="popup-header">
+              <h3>¡Los datos se actualizaron correctamente!</h3>
+            </div>
+            <p className="popup-message">Los datos se actualizaron de manera exitosa.</p>
+            <button className="popup-button" onClick={() => toast.dismiss()}>
+              OK
+            </button>
+          </div>,  {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            background: '#ffffff',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "black"
+            }
+          });
         })
         .catch((error) => {
-          console.error("Error uploading data:", error);
+          toast.error( 
+            <div className="popup">
+            <div className="popup-header">
+              <h3>¡Lo sentimos a ocurrido un error!</h3>
+            </div>
+            <p className="popup-message"> {error }</p>
+            <button className="popup-button" onClick={() => toast.dismiss()}>
+              OK
+            </button>
+          </div>,  {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: 'top-center',
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            background: '#ffffff',
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "black"
+            }
+          });
         });
     };
 
@@ -110,37 +165,102 @@
         clienteProveedor: excelRows2.slice(1).map((row) => ({
           id_usuario: row[0],
           ano_evaluacion_anual: row[12],
-          curva: row[13],
-          upward_feedback: row[14],
-          promedio_upward_feedback: row[15],
-          comentarios_cliente_proveedor: row[16],
-          promedio_cliente_proveedor: row[17],
-          puntuacion_comentarios: row[18],
-          comentarios_feedback: row[19],
+          potencial: row[13],
+          curva: row[14],
+          upward_feedback: row[15],
+          promedio_upward_feedback: row[16],
+          comentarios_cliente_proveedor: row[17],
+          promedio_cliente_proveedor: row[18],
+          puntuacion_comentarios: row[19],
+          comentarios_feedback: row[20],
         })),
         trayectoriaLaboral: excelRows2.slice(1).map((row) => ({
           id_usuario: row[0],
-          performance: row[20],
-          key_talent: row[21],
-          encuadre: row[22],
+          performance: row[21],
+          key_talent: row[22],
+          encuadre: row[23],
         })),
       };
     
       fetch("http://localhost:5000/empleados", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify(requestBody),
+})
+  .then((response) => {
+    if (!response.ok) {
+      throw new Error("Error en la respuesta del servidor");
+    }
+    return response.json();
+  })
+  .then((data) => {
+    toast.success(
+      <div className="popup">
+        <div className="popup-header">
+          <h3>¡Los datos se actualizaron correctamente!</h3>
+        </div>
+        <p className="popup-message">Los datos se actualizaron de manera exitosa.</p>
+        <button className="popup-button" onClick={() => toast.dismiss()}>
+          OK
+        </button>
+      </div>,
+      {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          background: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "black",
         },
-        body: JSON.stringify(requestBody),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log("Data uploaded successfully:", data);
-        })
-        .catch((error) => {
-          console.error("Error uploading data:", error);
-        });
-    };
+      }
+    );
+  })
+  .catch((error) => {
+    console.log(error);
+    toast.error(
+      <div className="popup">
+        <div className="popup-header">
+          <h3>¡Lo sentimos a ocurrido un error!</h3>
+        </div>
+        <p className="popup-message"> {error.message}</p>
+        <button className="popup-button" onClick={() => toast.dismiss()}>
+          OK
+        </button>
+      </div>,
+      {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        style: {
+          background: "#ffffff",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: "black",
+        },
+      }
+    );
+  });
+    }
     
       
     
@@ -181,15 +301,15 @@
       const zip = new JSZip();
   
       const promises = checkedRows.map((row) => {
-        return PDF(<PDFDocument id={row.id} />).toBlob();
+        return pdf(<PDFDocument id_usuario={row.id_usuario} />).toBlob();
       });
   
       const blobs = await Promise.all(promises);
   
       for (let i = 0; i < blobs.length; i++) {
-        const { id } = checkedRows[i];
+        const { id_usuario } = checkedRows[i];
         const blob = blobs[i];
-        const filename = `row_${id}.pdf`;
+        const filename = `row_${id_usuario}.pdf`;
         zip.file(filename, blob);
       }
       const content = await zip.generateAsync({ type: "blob" });
@@ -202,7 +322,6 @@
       anchor.click();
       document.body.removeChild(anchor);
     };
-    
     
 
     const columns = [
@@ -290,6 +409,12 @@
           width: 130,
         },
         {
+          field: 'potencial',
+          headerName: 'Potencial',
+          type: 'string',
+          width: 130,
+        },
+        {
           field: 'curva',
           headerName: 'Curva',
           type: 'string',
@@ -298,7 +423,7 @@
         {
           field: 'upward_feedback',
           headerName: 'Upward Feedback',
-          type: 'number',
+          type: 'float',
           width: 90,
         },
         {
@@ -366,7 +491,20 @@
           <div>
           <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
           <button onClick={handleUpload}>Upload</button>
+          <ToastContainer
+      position="top-center"
+      autoClose={5000}
+      hideProgressBar={false}
+      newestOnTop={false}
+      closeOnClick
+      rtl={false}
+      pauseOnFocusLoss
+      draggable
+      pauseOnHover
+      theme="colored"
+      />
           </div>
+          
 
           <div>
           <input type="file" accept=".xlsx,.xls" onChange={handleFileChange2} />
@@ -446,8 +584,14 @@
             )}
           />
           <div>
+            Checked rows:{" "}
+            {checkedRows.length > 0
+              ? checkedRows.map((row) => row.id_usuario).join(", ")
+              : "None"}
+          </div>
+          <div>
           <button onClick={handleZipDownload}>
-            Download PDFs for selected rows as .zip file
+            Descargar PDFs
           </button>
           </div>
         </div>
