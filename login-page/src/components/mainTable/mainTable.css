@@ -16,7 +16,7 @@ body {
 }
 
 .tabla {
-  border-radius: 10px;
+  border-radius: 0 10px 10px 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: 95%;
   width: auto;
@@ -49,8 +49,8 @@ body {
 /* Estilos para la tabla */
 .MuiDataGrid-root {
   background-color: white;
-  border-radius: 10px;
-  border: none;
+  border-radius:45px ;
+  
 }
 
 /* Estilos para las celdas */
@@ -115,7 +115,6 @@ border-radius: 50%;
 .dialog-upload {
   display: flex;
   align-items: center;
-  margin-bottom: 10px;
   flex-direction: column;
 }
 
@@ -124,6 +123,7 @@ border-radius: 50%;
   gap: 25px;
   margin: 25px;
   align-items: center;
+  
 }
 
 .dialog-upload button {
