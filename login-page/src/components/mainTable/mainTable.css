@@ -88,7 +88,7 @@ border-radius: 50%;
 
 .checkbox input[type="checkbox"]:checked {
   border-color: rgba(0, 0, 0, 0.389);
-  background-color: #2196f3; 
+  background-color: #F7A03C; 
   width: 1px;
   height: 1px;
   
@@ -108,8 +108,41 @@ border-radius: 50%;
   height: 1px;
 }
 
-
-
 #descarga{
   position: fixed;
+}
+
+.dialog-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.dialog-upload button {
+  background-color: #F7A03C;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  margin-left: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.dialog-upload button:hover {
+  opacity: 0.8;
+}
+
+.dialog-line {
+  border-top: 1px solid black;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.dialog-title {
+  text-align: center;
+  padding: 10px;
+  margin: 0;
+  font-weight: bold;
+  font-size: 20px;
 }
