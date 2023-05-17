@@ -509,8 +509,18 @@ import { ToastContainer, toast } from 'react-toastify';
       <div className="dialog-line"></div>
       <DialogContent>
       <div className="dialog-upload">
-          <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
+        <div className="dialogCont">
+        <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
           <button onClick={handleUpload}>Upload</button>
+        </div>
+          
+        <div className="dialogCont">
+        <input type="file" accept=".xlsx,.xls" onChange={handleFileChange2} />
+          <button onClick={handleUpload2}>Upload</button>
+        </div>
+          
+          </div>
+      
           <ToastContainer
       position="top-center"
       autoClose={5000}
@@ -523,13 +533,10 @@ import { ToastContainer, toast } from 'react-toastify';
       pauseOnHover
       theme="colored"
       />
-          </div>
+          
           
 
-          <div>
-          <input type="file" accept=".xlsx,.xls" onChange={handleFileChange2} />
-          <button onClick={handleUpload2}>Upload</button>
-        </div>
+          
       </DialogContent>
       <DialogActions>
         <Button onClick={handleDialogDismiss}>Salir</Button>
