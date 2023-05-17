@@ -1,4 +1,5 @@
   import { DataGrid, GridToolbar, GridToolbarQuickFilter} from "@mui/x-data-grid";
+  import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from "@mui/material";
   import { useState, useEffect } from "react";
   import "./mainTable.css"
   import * as XLSX from 'xlsx';
@@ -17,6 +18,7 @@ import { ToastContainer, toast } from 'react-toastify';
     const [rows, setRows] = useState([]);
     const [excelRows, setExcelRows] = useState([]);
     const [excelRows2, setExcelRows2] = useState([]);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
     
 
     const handleFileChange = (event) => {
@@ -261,9 +263,18 @@ import { ToastContainer, toast } from 'react-toastify';
     );
   });
     }
-    
-      
-    
+    const handleAddEmployee = () => {
+      setIsDialogOpen(true);
+    };
+  
+    const handleDialogClose = () => {
+      setIsDialogOpen(false);
+    };
+  
+    const handleDialogDismiss = () => {
+      setIsDialogOpen(false);
+      // Additional code to dismiss the dialog and return to the main screen
+    };
     
     
     useEffect(() => {
@@ -483,12 +494,21 @@ import { ToastContainer, toast } from 'react-toastify';
           valueGetter: (params) =>
             `${params.row.nombre|| ''} ${params.row.apellido || ''}`,
         },
-      ];    
+      ];
+      
+
 
       return (
         
         <div className="tabla" style={{ width: "100%" }}>
-          <div>
+        <Button variant="contained" onClick={handleAddEmployee}>
+          Añadir empleado
+        </Button>
+      <Dialog open={isDialogOpen} onClose={handleDialogClose}>
+      <DialogTitle className="dialog-title">Añadir empleado</DialogTitle>
+      <div className="dialog-line"></div>
+      <DialogContent>
+      <div className="dialog-upload">
           <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
           <button onClick={handleUpload}>Upload</button>
           <ToastContainer
@@ -509,10 +529,12 @@ import { ToastContainer, toast } from 'react-toastify';
           <div>
           <input type="file" accept=".xlsx,.xls" onChange={handleFileChange2} />
           <button onClick={handleUpload2}>Upload</button>
-          </div>
-
-          
-          
+        </div>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleDialogDismiss}>Salir</Button>
+      </DialogActions>
+    </Dialog>
           <DataGrid
             getRowId={(row) => row.id_usuario}
             slots={{ toolbar: GridToolbar, className: "barra" }}
@@ -590,9 +612,9 @@ import { ToastContainer, toast } from 'react-toastify';
               : "None"}
           </div>
           <div>
-          <button onClick={handleZipDownload}>
-            Descargar PDFs
-          </button>
+          <Button variant = "contained" onClick={handleZipDownload}>
+            Descargar fichas de empleado
+          </Button>
           </div>
         </div>
       );
