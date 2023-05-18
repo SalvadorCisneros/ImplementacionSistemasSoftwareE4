@@ -1,0 +1,7 @@
+{
+    "hosting": {
+      "site": "ternium-softweb",
+      "public": "/login-page/src//index.js"
+      
+    }
+  }

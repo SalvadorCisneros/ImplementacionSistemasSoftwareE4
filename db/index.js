@@ -16,6 +16,21 @@ app.get("/datospersonales", async(req,res) => {
         console.error(err.message)
     }
 })
+app.get("/datospersonales/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const datos = await pool.query(
+      "SELECT * FROM datospersonales FULL OUTER JOIN clienteproveedor ON datospersonales.id_usuario = clienteproveedor.id_usuario FULL OUTER JOIN trayectorialaboral ON datospersonales.id_usuario = trayectorialaboral.id_usuario WHERE datospersonales.id_usuario = $1",
+      [id]
+    );
+
+    res.json(datos.rows);
+  } catch (err) {
+    console.error(err.message);
+  }
+});
+
 
 app.put("/datospersonales/:id", async (req, res) => {
     try {

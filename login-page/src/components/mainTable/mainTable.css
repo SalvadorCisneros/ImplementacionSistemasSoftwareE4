@@ -16,14 +16,25 @@ body {
 }
 
 .tabla {
+  display: flex;
+  
+  flex-direction: column;
   border-radius: 0 10px 10px 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   max-width: 95%;
   width: auto;
   margin: 40px auto;
   height: 80vh;
-  overflow: auto;
+  overflow:hidden;
+  background-color: white;
+  
+  border-radius: 10px;
  
+}
+
+
+.tabla::-webkit-scrollbar{
+  width: 35px;
 }
 
 .key.s {
@@ -51,6 +62,11 @@ body {
   background-color: white;
   border-radius:45px ;
   
+}
+
+.MuiDataGrid-root::-webkit-scrollbar{
+  width: 35px;
+  color: red;
 }
 
 /* Estilos para las celdas */
@@ -210,4 +226,10 @@ padding: 10px 20px;
 margin-top: 20px;
 cursor: pointer;
 font-weight: bold;
+}
+
+.btn-container{
+  display: flex;
+  padding: 5px;
+  gap: 10px;
 }

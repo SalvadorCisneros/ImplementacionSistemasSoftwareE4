@@ -60,12 +60,13 @@ const styles = StyleSheet.create({
 
 });
 
-const PDFDocument = ({ id_usuario }) => {
+const PDFDocuments = ({ id, name }) => {
   return (
     <Document>
       <Page>
         <View>
-          <Text>{`Row ID: ${id_usuario}`}</Text>
+          <Text>{`Row ID: ${id}`}</Text>
+          <Text>{`Row Name: ${name}`}</Text>
         </View>
       </Page>
     </Document>
@@ -77,14 +78,12 @@ Font.register({ family: 'Roboto', src: 'https://fonts.gstatic.com/s/questrial/v1
 Font.register({ family: 'Sofis', src: "https://fonts.gstatic.com/s/cairo/v20/SLXVc1nY6HkvangtZmpcWmhzfH5lWWgsQQ.ttf" });
 
 
-const PDFDocuments = ({ id_usuario }) => {
-  const location = useLocation();
-  var ids = location.state.id_usuario+'_FichaEmpleado'
+const PDFDocument = ({ id_usuario, nombre, apellido, edad, telefono, antiguedad, universidad, direccion, estudio, potencial, ano_evaluacion_anual, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback, performance, key_talent, encuadre }) => {
 
 
   return (
     
-      <Document title= {ids} file="/ficha.pdf">
+      <Document title= {id_usuario} file="/ficha.pdf">
         <Page size="A4">
           <View>
             <Image id="logo" src={process.env.PUBLIC_URL + '/TX_BIG.png'} alt="Logo" style={{
@@ -123,7 +122,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Nombre Completo:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{id_usuario.nombre} {id_usuario.apellido}</Text> 
+                        <Text style={styles.tableCell}>{nombre} {apellido}</Text> 
                       </View>   
                     </View>
                     <View style={styles.tableRow}> 
@@ -131,7 +130,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Edad:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.edad}</Text> 
+                        <Text style={styles.tableCell}>{edad}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
@@ -139,7 +138,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Antiguedad:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.antigüedad}</Text> 
+                        <Text style={styles.tableCell}>{antiguedad}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
@@ -147,7 +146,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Universidad:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.universidad}</Text> 
+                        <Text style={styles.tableCell}>{universidad}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
@@ -155,7 +154,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Direccion:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.direccion}</Text> 
+                        <Text style={styles.tableCell}>{direccion}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
@@ -163,7 +162,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Estudios:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.estudio}</Text> 
+                        <Text style={styles.tableCell}>{estudio}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
@@ -171,7 +170,7 @@ const PDFDocuments = ({ id_usuario }) => {
                         <Text style={styles.tableCell}>Telefono:</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.telefono}</Text> 
+                        <Text style={styles.tableCell}>{telefono}</Text> 
                       </View> 
                     </View> 
                   </View>
@@ -182,11 +181,11 @@ const PDFDocuments = ({ id_usuario }) => {
                 <Text style={{ fontFamily: "Sofis", fontSize: "20px" }}>Cliente Proveedor</Text>
                 <View className='client-text-container'>
 
-                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Año de Evaluacion: </Text>{location.state.ano_evaluacion_anual}</Text>
-                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Performance: </Text>{location.state.performance}</Text>
-                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Curva:</Text> {location.state.curva}</Text>
-                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Opiniones:</Text>  {location.state.upward_feedback}</Text>
-                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Promedio de Opinión:</Text> {location.state.promedio_upward_feedback}</Text>
+                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Año de Evaluacion: </Text>{ano_evaluacion_anual}</Text>
+                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Performance: </Text>{performance}</Text>
+                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Curva:</Text> {curva}</Text>
+                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Opiniones:</Text>  {upward_feedback}</Text>
+                  <Text style={{ fontSize: "17px", display: "flex", flexDirection:"row" }}> <Text style={{ fontFamily: "Sofis", fontSize: "17px", display: "flex", flexDirection:"row" }}>Promedio de Opinión:</Text> {promedio_upward_feedback}</Text>
                 </View>
                 <View style={styles.table}> 
                     <View style={styles.tableRow}> 
@@ -199,18 +198,18 @@ const PDFDocuments = ({ id_usuario }) => {
                     </View>
                     <View style={styles.tableRow}> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.promedio_cliente_proveedor}</Text> 
+                        <Text style={styles.tableCell}>{promedio_cliente_proveedor}</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.comentarios_cliente_proveedor}</Text> 
+                        <Text style={styles.tableCell}>{comentarios_cliente_proveedor}</Text> 
                       </View> 
                     </View> 
                     <View style={styles.tableRow}> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.puntuacion_comentarios}</Text> 
+                        <Text style={styles.tableCell}>{puntuacion_comentarios}</Text> 
                       </View> 
                       <View style={styles.tableCol}> 
-                        <Text style={styles.tableCell}>{location.state.comentarios_feedback}</Text> 
+                        <Text style={styles.tableCell}>{comentarios_feedback}</Text> 
                       </View> 
                     </View> 
                     </View> 
@@ -232,13 +231,13 @@ const PDFDocuments = ({ id_usuario }) => {
                   </View>
                   <View style={styles.tableRow}> 
                     <View style={styles.tableColt}> 
-                      <Text style={styles.tableCell}>{location.state.performance}</Text> 
+                      <Text style={styles.tableCell}>{performance}</Text> 
                     </View> 
                     <View style={styles.tableColt}> 
-                      <Text style={styles.tableCell}>{location.state.key_talent}</Text> 
+                      <Text style={styles.tableCell}>{key_talent}</Text> 
                     </View> 
                     <View style={styles.tableColt}>
-                      <Text style={styles.tableCell}>{location.state.encuadre}</Text> 
+                      <Text style={styles.tableCell}>{encuadre}</Text> 
                     </View>
                   </View> 
                 </View>

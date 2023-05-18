@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './profileBox.css';
 import { useLocation, useParams} from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,23 +15,70 @@ export default function ProfileBox() {
   const location = useLocation();
   const { id_usuario } = useParams();
   
-  const [nombre, setNombre] = useState(location.state.nombre);
-  const [apellido, setApellido] = useState(location.state.apellido);
-  const [edad, setEdad] = useState(location.state.edad);
-  const [telefono, setTelefono] = useState(location.state.telefono);
-  const [antiguedad, setAntiguedad] = useState(location.state.antiguedad);
-  const [universidad, setUniversidad] = useState(location.state.universidad);
-  const [potencial, setPotencial] = useState(location.state.potencial);
-  const [direccion, setDireccion] = useState(location.state.direccion);
-  const [estudio, setEstudio] = useState(location.state.estudio);
-  const [ano_evaluacion_anual, setAno_evaluacion_anual] = useState(location.state.ano_evaluacion_anual);
-  const [performance, setPerformance] = useState(location.state.performance);
-  const [curva, setCurva] = useState(location.state.curva);
-  const [upward_feedback, setUpward_feedback] = useState(location.state.upward_feedback);
-  const [promedio_upward_feedback, setPromedio_upward_feedback] = useState(location.state.promedio_upward_feedback);
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [edad, setEdad] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [antiguedad, setAntiguedad] = useState('');
+  const [universidad, setUniversidad] = useState('');
+  const [potencial, setPotencial] = useState('');
+  const [direccion, setDireccion] = useState('');
+  const [estudio, setEstudio] = useState('');
+  const [ano_evaluacion_anual, setAno_evaluacion_anual] = useState('');
+  const [performance, setPerformance] = useState('');
+  const [curva, setCurva] = useState('');
+  const [upward_feedback, setUpward_feedback] = useState('');
+  const [promedio_upward_feedback, setPromedio_upward_feedback] = useState('');
+  const [comentarios_cliente_proveedor, setComentarios_cliente_proveedor] = useState('');
+  const [promedio_cliente_proveedor, setPromedio_cliente_proveedor] = useState('');
+  const [puntuacion_comentarios, setPuntuacion_comentarios] = useState('');
+  const [comentarios_feedback, setComentarios_feedback] = useState('');
+  const [key_talent, setKey_talent] = useState('');
+  const [encuadre, setEncuadre] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
   const [downloadType, setDownloadType] = useState(null);
+  const [profileData, setProfileData] = useState(null);
+
+  useEffect(() => {
+    fetch(`http://localhost:5000/datospersonales/${id_usuario}`)
+      .then(response => response.json())
+      .then(data => {
+        setProfileData(data[0]); // Se asume que solo hay un registro con el ID especificado
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [id_usuario]);
+
+
+  useEffect(() => {
+    console.log(profileData)
+    if (profileData) {
+      // Asigna los valores correspondientes a cada variable
+      setNombre(profileData.nombre);
+      setApellido(profileData.apellido);
+      setEdad(profileData.edad);
+      setTelefono(profileData.telefono);
+      setAntiguedad(profileData.antiguedad);
+      setUniversidad(profileData.universidad);
+      setPotencial(profileData.potencial);
+      setDireccion(profileData.direccion);
+      setEstudio(profileData.estudio);
+      setAno_evaluacion_anual(profileData.ano_evaluacion_anual);
+      setPerformance(profileData.performance);
+      setCurva(profileData.curva);
+      setUpward_feedback(profileData.upward_feedback);
+      setPromedio_upward_feedback(profileData.promedio_upward_feedback);
+      setComentarios_cliente_proveedor(profileData.comentarios_cliente_proveedor);
+      setPromedio_cliente_proveedor(profileData.promedio_cliente_proveedor);
+      setPuntuacion_comentarios(profileData.puntuacion_comentarios);
+      setComentarios_feedback(profileData.comentarios_feedback);
+      setPerformance(profileData.performance);
+      setKey_talent(profileData.key_talent);
+      setEncuadre(profileData.encuadre);
+    }
+  }, [profileData]);
   
 
   const handleShowPdf = () => {
@@ -46,6 +93,9 @@ export default function ProfileBox() {
   const handleEdit = () => {
     setEditMode(true);
   };
+
+
+  
 
   const handleSubmit = () => {
    
@@ -65,11 +115,17 @@ export default function ProfileBox() {
       curva,
       upward_feedback,
       promedio_upward_feedback,
+      comentarios_cliente_proveedor,
+      promedio_cliente_proveedor,
+      puntuacion_comentarios,
+      comentarios_feedback,
+      key_talent,
+      encuadre
       
       
 
     };
-    console.log(id_usuario)
+    
   
     fetch(`http://localhost:5000/datospersonales/${id_usuario}`, {
       method: 'PUT',
@@ -248,47 +304,71 @@ export default function ProfileBox() {
         <table>
           <thead>
             <tr>
-              <th>Nota</th>
-              <th>Comentarios</th>
+            <th>Nota</th>
+            <th>Comentarios</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={comentarios_cliente_proveedor} onChange={(e) => setComentarios_cliente_proveedor(e.target.value)} />
+            ) : (
+              comentarios_cliente_proveedor
+            )}</td>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={promedio_cliente_proveedor} onChange={(e) => setPromedio_cliente_proveedor(e.target.value)} />
+            ) : (
+              promedio_cliente_proveedor
+            )}</td>
             </tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>{location.state.promedio_cliente_proveedor}</td>
-                <td>{location.state.comentarios_cliente_proveedor}</td>
-
-              </tr>
-              <tr>
-                <td>{location.state.puntuacion_comentarios}</td>
-                <td>{location.state.comentarios_feedback}</td>
-              </tr>
-            
-          </tbody>
-        </table>
-      </div>
-
-      <div className='job-container'>
-        <h2 id='TL'>Trayectoria Laboral</h2>
-        <table>
-          <thead>
             <tr>
-              <th>Performance</th>
-              <th>Key Talent</th>
-              <th>Encuadre</th>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={puntuacion_comentarios} onChange={(e) => setPuntuacion_comentarios(e.target.value)} />
+            ) : (
+              puntuacion_comentarios
+            )}</td>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={comentarios_feedback} onChange={(e) => setComentarios_feedback(e.target.value)} />
+            ) : (
+              comentarios_feedback
+            )}</td>
             </tr>
-          </thead>
-          <tbody>
-            
-              <tr>
-                <td>{location.state.performance}</td>
-                <td>{location.state.key_talent}</td>
-                <td>{location.state.encuadre}</td>
-              </tr>
-           
-          </tbody>
-        </table>
-      </div>
+          
+        </tbody>
+      </table>
+    </div>
+
+    <div className='job-container'>
+      <h2 id='TL'>Trayectoria Laboral</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Performance</th>
+            <th>Key Talent</th>
+            <th>Encuadre</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={performance} onChange={(e) => setPerformance(e.target.value)} />
+            ) : (
+              performance
+            )}</td>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={key_talent} onChange={(e) => setKey_talent(e.target.value)} />
+            ) : (
+              key_talent
+            )}</td>
+            <td>{editMode ? (
+              <input id='inp' type="text" value={encuadre} onChange={(e) => setEncuadre(e.target.value)} />
+            ) : (
+              encuadre
+            )}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
       <div className='pdfContainer'>
   <button className="pdf-button" onClick={handleShowPdf}>
