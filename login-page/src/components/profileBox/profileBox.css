@@ -9,7 +9,7 @@
     max-height: 80vh;
     overflow-y: auto;
   }
-  
+   
   .name-container {
     text-align: center;
     margin-bottom: 20px;
@@ -18,7 +18,6 @@
   #fotoPerfil {
     width: 150px;
     height: 150px;
-    
     object-fit: cover;
     margin: 0 auto;
     display: block;
@@ -50,6 +49,41 @@
     letter-spacing: 1px;
     padding: 10px 20px;
     cursor: pointer
+  }
+
+  .profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .profile-picture {
+    position: relative;
+  }
+  
+  .profile-image-wrapper {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+
+  .camera-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .camera-button i {
+    color: #888;
   }
 
   .datos-container {

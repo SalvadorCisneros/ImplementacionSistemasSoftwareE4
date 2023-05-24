@@ -5,11 +5,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import PDF from '../pdf/pdf';
 
+import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import 'react-toastify/dist/ReactToastify.css';
-
-
-
-
 
 export default function ProfileBox() {
   const location = useLocation();
@@ -39,6 +36,11 @@ export default function ProfileBox() {
   const [showPdf, setShowPdf] = useState(false);
   const [downloadType, setDownloadType] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState(null);
+
+  const isEmployee = localStorage.getItem('isEmployee') === 'true';
+  const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
   useEffect(() => {
     fetch(`http://localhost:5000/datospersonales/${id_usuario}`)
@@ -94,10 +96,16 @@ export default function ProfileBox() {
     setEditMode(true);
   };
 
+  const handleChangeProfilePicture = (e) => {
+    if(e.target.files[0]){
+      setImage(e.target.files[0])
+    }
+  };
 
   
 
   const handleSubmit = () => {
+    
    
     const updatedState = {
       id_usuario,
@@ -121,9 +129,6 @@ export default function ProfileBox() {
       comentarios_feedback,
       key_talent,
       encuadre
-      
-      
-
     };
     
   
@@ -175,10 +180,12 @@ export default function ProfileBox() {
 
   return (
     <div className="main-container">
-      {editMode ? (
-        <button id = "boton-guardar" onClick={handleSubmit}>Guardar datos</button>
-      ) : (
-        <button id = "boton-modificar"onClick={handleEdit}>Modificar datos</button>
+      {isAdmin && (
+        editMode ? (
+          <button id = "boton-guardar" onClick={handleSubmit}>Guardar datos</button>
+        ) : (
+          <button id = "boton-modificar"onClick={handleEdit}>Modificar datos</button>
+        )
       )}
 
       <ToastContainer
@@ -199,198 +206,281 @@ export default function ProfileBox() {
         <h1 id="titulo">Ficha de empleado</h1>
       </div>
       <div className="second-container">
-        <div className="profile-container">
+      <div className="profile-container">
+      <div className="profile-picture">
+        <div className="profile-image-wrapper">
           <img id="fotoPerfil" src={process.env.PUBLIC_URL + '/profile-picture.jpg'} alt="Foto de Perfil" />
-        </div>
-        <div className="datos-container">
-          <h2 id='DP'>Datos Personales</h2>
-          <table>
-            <tbody>
-              <tr>
-                <td>Nombre Completo:</td>
-                {editMode ? (
-                  <td id='inp_box'>
-                    <input id='inp' type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
-                    <input id='inp' type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
-                  </td>
-                ) : (
-                  <td>{nombre} {apellido}</td>
-                )}
-              </tr>
-              <tr>
-                <td>Edad:</td>
-                {editMode ? (
-                  <td id='inp_box'><input id='inp' type="text" value={edad} onChange={(e) => setEdad(e.target.value)} /></td>
-                ) : (
-                  <td>{edad}</td>
-                )}
-              </tr>
-              <tr>
-        <td>Antigüedad:</td>
-        {editMode ? (
-          <td id='inp_box'><input id='inp' type="text" value={antiguedad} onChange={(e) => setAntiguedad(e.target.value)} /></td>
-        ) : (
-          <td>{antiguedad}</td>
-        )}
-      </tr>
-      <tr>
-        <td>Universidad:</td>
-        {editMode ? (
-          <td id='inp_box'><input id='inp' type="text" value={universidad} onChange={(e) => setUniversidad(e.target.value)} /></td>
-        ) : (
-          <td>{universidad}</td>
-        )}
-      </tr>
-      <tr>
-        <td>Direccion:</td>
-        {editMode ? (
-          <td id='inp_box'><input id='inp' type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} /></td>
-        ) : (
-          <td>{direccion}</td>
-        )}
-      </tr>
-      <tr>
-        <td>Estudios:</td>
-        {editMode ? (
-          <td id='inp_box'><input id='inp' type="text" value={estudio} onChange={(e) => setEstudio(e.target.value)} /></td>
-        ) : (
-          <td>{estudio}</td>
-        )}
-      </tr>
-      <tr>
-        <td>Telefono:</td>
-        {editMode ? (
-          <td id='inp_box'><input id='inp' type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></td>
-        ) : (
-          <td>{telefono}</td>
-        )}
-      </tr>
-            </tbody>
-          </table>
+          <div className="camera-button">
+            <input type="file" onChange={handleChangeProfilePicture} />
+            <i className="fa fa-camera"></i>
+          </div>
         </div>
       </div>
+    </div>
+    {isEmployee ? (
+      <>
+          <div className="datos-container">
+            <h2 id='DP'>Datos Personales</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Nombre Completo:</td>
+                  {editMode ? (
+                    <td id='inp_box'>
+                      <input id='inp' type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                      <input id='inp' type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
+                    </td>
+                  ) : (
+                    <td>{nombre} {apellido}</td>
+                  )}
+                </tr>
+                <tr>
+                  <td>Edad:</td>
+                  {editMode ? (
+                    <td id='inp_box'><input id='inp' type="text" value={edad} onChange={(e) => setEdad(e.target.value)} /></td>
+                  ) : (
+                    <td>{edad}</td>
+                  )}
+                </tr>
+                <tr>
+          <td>Antigüedad:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={antiguedad} onChange={(e) => setAntiguedad(e.target.value)} /></td>
+          ) : (
+            <td>{antiguedad}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Universidad:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={universidad} onChange={(e) => setUniversidad(e.target.value)} /></td>
+          ) : (
+            <td>{universidad}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Direccion:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} /></td>
+          ) : (
+            <td>{direccion}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Estudios:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={estudio} onChange={(e) => setEstudio(e.target.value)} /></td>
+          ) : (
+            <td>{estudio}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Telefono:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></td>
+          ) : (
+            <td>{telefono}</td>
+          )}
+        </tr>
+              </tbody>
+            </table>
+          </div>
+        
+      </> ) : (
+        <>
+          <div className="datos-container">
+            <h2 id='DP'>Datos Personales</h2>
+            <table>
+              <tbody>
+                <tr>
+                  <td>Nombre Completo:</td>
+                  {editMode ? (
+                    <td id='inp_box'>
+                      <input id='inp' type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                      <input id='inp' type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
+                    </td>
+                  ) : (
+                    <td>{nombre} {apellido}</td>
+                  )}
+                </tr>
+                <tr>
+                  <td>Edad:</td>
+                  {editMode ? (
+                    <td id='inp_box'><input id='inp' type="text" value={edad} onChange={(e) => setEdad(e.target.value)} /></td>
+                  ) : (
+                    <td>{edad}</td>
+                  )}
+                </tr>
+                <tr>
+          <td>Antigüedad:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={antiguedad} onChange={(e) => setAntiguedad(e.target.value)} /></td>
+          ) : (
+            <td>{antiguedad}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Universidad:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={universidad} onChange={(e) => setUniversidad(e.target.value)} /></td>
+          ) : (
+            <td>{universidad}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Direccion:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={direccion} onChange={(e) => setDireccion(e.target.value)} /></td>
+          ) : (
+            <td>{direccion}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Estudios:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={estudio} onChange={(e) => setEstudio(e.target.value)} /></td>
+          ) : (
+            <td>{estudio}</td>
+          )}
+        </tr>
+        <tr>
+          <td>Telefono:</td>
+          {editMode ? (
+            <td id='inp_box'><input id='inp' type="text" value={telefono} onChange={(e) => setTelefono(e.target.value)} /></td>
+          ) : (
+            <td>{telefono}</td>
+          )}
+        </tr>
+              </tbody>
+            </table>
+          </div>
 
-      <div className='opinions-container'>
-        <h2 id='CP'>Cliente Proveedor</h2>
-        <div className='client-text-container'>
+        <div className='opinions-container'>
+          <h2 id='CP'>Cliente Proveedor</h2>
+          <div className='client-text-container'>
 
-        <p><b>Año Evaluacion Anual:</b> {editMode ? (
-          
-          <input id='inp' type="text" value={ano_evaluacion_anual} onChange={(e) => setAno_evaluacion_anual(e.target.value)} />
-        ) : (
-          ano_evaluacion_anual
-        )}</p>
-        <p><b>Potencial:</b> {editMode ? (
-          <input id='inp' type="text" value={potencial} onChange={(e) => setPotencial(e.target.value)} />
-        ) : (
-          potencial
-        )}</p>
-        <p><b>Curva:</b> {editMode ? (
-          <input id='inp' type="text" value={curva} onChange={(e) => setCurva(e.target.value)} />
-        ) : (
-          curva
-        )}</p>
-        <p><b>Opiniones:</b> {editMode ? (
-          <input id='inp' type="text" value={upward_feedback} onChange={(e) => setUpward_feedback(e.target.value)} />
-        ) : (
-          upward_feedback
-        )}</p>
-        <p><b>Promedio de Opinión:</b> {editMode ? (
-          <input id='inp' type="text" value={promedio_upward_feedback} onChange={(e) => setPromedio_upward_feedback(e.target.value)} />
-        ) : (
-          promedio_upward_feedback
-        )}</p>
-        </div>
+          <p><b>Año Evaluacion Anual:</b> {editMode ? (
+            
+            <input id='inp' type="text" value={ano_evaluacion_anual} onChange={(e) => setAno_evaluacion_anual(e.target.value)} />
+          ) : (
+            ano_evaluacion_anual
+          )}</p>
+          <p><b>Potencial:</b> {editMode ? (
+            <input id='inp' type="text" value={potencial} onChange={(e) => setPotencial(e.target.value)} />
+          ) : (
+            potencial
+          )}</p>
+          <p><b>Curva:</b> {editMode ? (
+            <input id='inp' type="text" value={curva} onChange={(e) => setCurva(e.target.value)} />
+          ) : (
+            curva
+          )}</p>
+          <p><b>Opiniones:</b> {editMode ? (
+            <input id='inp' type="text" value={upward_feedback} onChange={(e) => setUpward_feedback(e.target.value)} />
+          ) : (
+            upward_feedback
+          )}</p>
+          <p><b>Promedio de Opinión:</b> {editMode ? (
+            <input id='inp' type="text" value={promedio_upward_feedback} onChange={(e) => setPromedio_upward_feedback(e.target.value)} />
+          ) : (
+            promedio_upward_feedback
+          )}</p>
+          </div>
+          <table>
+            <thead>
+              <tr>
+              <th>Nota</th>
+              <th>Comentarios</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={comentarios_cliente_proveedor} onChange={(e) => setComentarios_cliente_proveedor(e.target.value)} />
+              ) : (
+                comentarios_cliente_proveedor
+              )}</td>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={promedio_cliente_proveedor} onChange={(e) => setPromedio_cliente_proveedor(e.target.value)} />
+              ) : (
+                promedio_cliente_proveedor
+              )}</td>
+              </tr>
+              <tr>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={puntuacion_comentarios} onChange={(e) => setPuntuacion_comentarios(e.target.value)} />
+              ) : (
+                puntuacion_comentarios
+              )}</td>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={comentarios_feedback} onChange={(e) => setComentarios_feedback(e.target.value)} />
+              ) : (
+                comentarios_feedback
+              )}</td>
+              </tr>
+            
+          </tbody>
+        </table>
+      </div>
+
+      <div className='job-container'>
+        <h2 id='TL'>Trayectoria Laboral</h2>
         <table>
           <thead>
             <tr>
-            <th>Nota</th>
-            <th>Comentarios</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={comentarios_cliente_proveedor} onChange={(e) => setComentarios_cliente_proveedor(e.target.value)} />
-            ) : (
-              comentarios_cliente_proveedor
-            )}</td>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={promedio_cliente_proveedor} onChange={(e) => setPromedio_cliente_proveedor(e.target.value)} />
-            ) : (
-              promedio_cliente_proveedor
-            )}</td>
+              <th>Performance</th>
+              <th>Key Talent</th>
+              <th>Encuadre</th>
             </tr>
+          </thead>
+          <tbody>
             <tr>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={puntuacion_comentarios} onChange={(e) => setPuntuacion_comentarios(e.target.value)} />
-            ) : (
-              puntuacion_comentarios
-            )}</td>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={comentarios_feedback} onChange={(e) => setComentarios_feedback(e.target.value)} />
-            ) : (
-              comentarios_feedback
-            )}</td>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={performance} onChange={(e) => setPerformance(e.target.value)} />
+              ) : (
+                performance
+              )}</td>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={key_talent} onChange={(e) => setKey_talent(e.target.value)} />
+              ) : (
+                key_talent
+              )}</td>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={encuadre} onChange={(e) => setEncuadre(e.target.value)} />
+              ) : (
+                encuadre
+              )}</td>
             </tr>
-          
-        </tbody>
-      </table>
-    </div>
-
-    <div className='job-container'>
-      <h2 id='TL'>Trayectoria Laboral</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Performance</th>
-            <th>Key Talent</th>
-            <th>Encuadre</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={performance} onChange={(e) => setPerformance(e.target.value)} />
-            ) : (
-              performance
-            )}</td>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={key_talent} onChange={(e) => setKey_talent(e.target.value)} />
-            ) : (
-              key_talent
-            )}</td>
-            <td>{editMode ? (
-              <input id='inp' type="text" value={encuadre} onChange={(e) => setEncuadre(e.target.value)} />
-            ) : (
-              encuadre
-            )}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-      <div className='pdfContainer'>
-  <button className="pdf-button" onClick={handleShowPdf}>
-    {showPdf ? 'Descargar ficha de empleado' : 'Visualizar ficha de empleado'}
-  </button>
-  {showPdf && (
-    <div className="pdf-overlay">
-      <div className="pdf-wrapper">
-        <button className="pdf-close-button" onClick={handleDismiss}>Cerrar</button>
-        <PDF downloadType={downloadType} />
+          </tbody>
+        </table>
       </div>
+
+        <div className='pdfContainer'>
+    <button className="pdf-button" onClick={handleShowPdf}>
+      {showPdf ? 'Descargar ficha de empleado' : 'Visualizar ficha de empleado'}
+    </button>
+    {showPdf && (
+      <div className="pdf-overlay">
+        <div className="pdf-wrapper">
+          <button className="pdf-close-button" onClick={handleDismiss}>Cerrar</button>
+          <PDF downloadType={downloadType} />
+        </div>
+      </div>
+    )}
+    {showPdf && (
+      <div className="pdf-download-options">
+        <select>
+          <option value="pdf">Descargar como PDF</option>
+          <option value="excel">Descargar como Excel</option>
+        </select>
+      </div>
+    )}
+    
     </div>
-  )}
-  {showPdf && (
-    <div className="pdf-download-options">
-      <select>
-        <option value="pdf">Descargar como PDF</option>
-        <option value="excel">Descargar como Excel</option>
-      </select>
+    </>
+    )}
+  
     </div>
-  )}
-</div>
     </div>
-  );
+  )
 }

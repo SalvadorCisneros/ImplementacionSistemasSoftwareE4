@@ -10,7 +10,7 @@ import { BrowserRouter,Routes,Route } from "react-router-dom";
 
 export default function App() {
   
-  
+  const token = localStorage.getItem('token') === 'true';
 
 
   return(
@@ -18,15 +18,15 @@ export default function App() {
       
       <Routes>
         <Route path="/" element={<LoginPage/>} />
-        <Route path="/main" element={<Main/>} />
-        <Route path={`/profile/:id_usuario`} element={<ProfilePage/>} />
-        <Route path="*" element={<Error/>} />
+
+        {token && (
+          <>
+          <Route path="/main" element={<Main/>} />
+          <Route path={`/profile/:id_usuario`} element={<ProfilePage/>} />
+          <Route path="*" element={<Error/>} />
+          </>)}
       </Routes>
     </BrowserRouter>
-
-    
-
-  
   )   
 
   }

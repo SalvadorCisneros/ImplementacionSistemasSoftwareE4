@@ -2,10 +2,68 @@ const express = require("express")
 const app = express()
 const cors = require("cors")
 const pool = require("./db")
+const jwt = require("jsonwebtoken")
 
 
 app.use(cors())
 app.use(express.json())
+
+app.get("/usuarios", async(req,res) => {
+  try{
+     
+      const allDatos = await pool.query("SELECT * FROM usuarios")
+       res.json(allDatos.rows);
+  } catch(err){
+      console.error(err.message)
+  }
+})
+
+app.post('/usuarios', async(req, res) => {
+
+  try {
+    const { email, password} = req.body;
+
+    const result = await pool.query(
+      `SELECT u.id_usuario, u.correo_ternium, a.id_usuario AS is_admin, e.id_usuario AS is_employee
+      FROM usuarios u
+      LEFT JOIN administradores a ON u.id_usuario = a.id_usuario
+      LEFT JOIN empleados e ON u.id_usuario = e.id_usuario
+      WHERE u.correo_ternium = $1 AND u.contrasena = $2`,
+      [email, password]
+    );
+
+    const user = result.rows[0];
+
+    if (user) {
+      // user is authenticated, send a JWT token back to the client
+      const isAdmin = user.is_admin !== null;
+      const isEmployee = user.is_employee !== null;
+      const id_usuario = user.id_usuario;
+      const token = jwt.sign({ email: email ,id_usuario: id_usuario, isAdmin: isAdmin, isEmployee: isEmployee}, 'mysecretkey');
+      res.json({ token , isAdmin, isEmployee, id_usuario });
+    } else {  
+      res.status(401).json({ error: 'Invalid credentials' });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'An error occurred' });
+  }
+
+});
+
+app.delete('/logout', (req, res) => {
+  if (req.session) {
+    req.session.destroy(err => {
+      if (err) {
+        res.status(400).send('Unable to log out')
+      } else {
+        res.send('Logout successful')
+      }
+    });
+  } else {
+    res.end()
+  }
+})
 
 app.get("/datospersonales", async(req,res) => {
     try{
