@@ -310,9 +310,48 @@ body: JSON.stringify(requestBody),
   };
 
   const handleZipDownload = async () => {
-    const zip = new JSZip();
 
+    if (checkedRows.length === 0) {
+      console.log("ERROR no usuarios")
+      toast.error(
+        <div className="popup">
+          <div className="popup-header">
+            <h3>¡Lo sentimos a ocurrido un error!</h3>
+          </div>
+          <p className="popup-message"> Empleados no seleccionados</p>
+          <button className="popup-button" onClick={() => toast.dismiss()}>
+            OK
+          </button>
+        </div>,
+        {
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          style: {
+            background: "#ffffff",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            color: "black",
+          },
+        }
+      );
+        
+      // No se recibieron datos, no se descarga ningún zip
+      return;
+    }
+    
+    const zip = new JSZip();
+    
     const promises = checkedRows.map((row) => {
+      
       return pdf(<PDFDocument id_usuario={row.id_usuario} nombre={row.nombre} apellido={row.apellido} edad={row.edad} telefono={row.telefono} antiguedad={row.antiguedad} universidad={row.universidad} direccion={row.direccion} estudio={row.estudio} potencial={row.potencial} ano_evaluacion_anual={row.ano_evaluacion_anual} curva={row.curva} upward_feedback={row.upward_feedback} promedio_upward_feedback={row.promedio_upward_feedback} comentarios_cliente_proveedor={row.comentarios_cliente_proveedor} promedio_cliente_proveedor={row.promedio_cliente_proveedor} puntuacion_comentarios={row.puntuacion_comentarios} comentarios_feedback={row.comentarios_feedback} performance={row.performance} key_talent={row.key_talent} encuadre={row.encuadre}/>).toBlob();  
     });
 
@@ -506,10 +545,23 @@ body: JSON.stringify(requestBody),
         <Button variant="contained" onClick={handleAddEmployee}>
         Añadir empleado
       </Button>
+      
         
         <Button variant = "contained" onClick={handleZipDownload}>
           Descargar fichas de empleado
         </Button>
+        <ToastContainer
+    position="top-center"
+    autoClose={5000}
+    hideProgressBar={false}
+    newestOnTop={false}
+    closeOnClick
+    rtl={false}
+    pauseOnFocusLoss
+    draggable
+    pauseOnHover
+    theme="colored"
+    />
         </div>
     <Dialog open={isDialogOpen} onClose={handleDialogClose}>
     <DialogTitle className="dialog-title">Añadir empleado</DialogTitle>

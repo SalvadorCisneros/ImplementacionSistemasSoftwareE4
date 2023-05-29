@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer, toast } from 'react-toastify';
 import PDF from '../pdf/pdf';
 
-import {ref, uploadBytes, getDownloadURL} from "firebase/storage";
 import 'react-toastify/dist/ReactToastify.css';
 
 export default function ProfileBox() {
@@ -36,8 +35,7 @@ export default function ProfileBox() {
   const [showPdf, setShowPdf] = useState(false);
   const [downloadType, setDownloadType] = useState(null);
   const [profileData, setProfileData] = useState(null);
-  const [image, setImage] = useState(null);
-  const [url, setUrl] = useState(null);
+ 
 
   const isEmployee = localStorage.getItem('isEmployee') === 'true';
   const isAdmin = localStorage.getItem('isAdmin') === 'true';
@@ -96,11 +94,7 @@ export default function ProfileBox() {
     setEditMode(true);
   };
 
-  const handleChangeProfilePicture = (e) => {
-    if(e.target.files[0]){
-      setImage(e.target.files[0])
-    }
-  };
+ 
 
   
 
@@ -210,9 +204,7 @@ export default function ProfileBox() {
       <div className="profile-picture">
         <div className="profile-image-wrapper">
           <img id="fotoPerfil" src={process.env.PUBLIC_URL + '/profile-picture.jpg'} alt="Foto de Perfil" />
-          <div className="camera-button">
-            <input type="file" onChange={handleChangeProfilePicture} />
-            <i className="fa fa-camera"></i>
+          
           </div>
         </div>
       </div>
@@ -462,25 +454,19 @@ export default function ProfileBox() {
     {showPdf && (
       <div className="pdf-overlay">
         <div className="pdf-wrapper">
-          <button className="pdf-close-button" onClick={handleDismiss}>Cerrar</button>
+          
           <PDF downloadType={downloadType} />
         </div>
+        <button className="pdf-close-button" onClick={handleDismiss}> <b>X</b>  </button>
       </div>
     )}
-    {showPdf && (
-      <div className="pdf-download-options">
-        <select>
-          <option value="pdf">Descargar como PDF</option>
-          <option value="excel">Descargar como Excel</option>
-        </select>
-      </div>
-    )}
+    
     
     </div>
     </>
     )}
   
     </div>
-    </div>
+    
   )
 }

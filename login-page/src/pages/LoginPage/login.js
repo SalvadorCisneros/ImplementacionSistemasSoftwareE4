@@ -30,12 +30,13 @@ function LoginPage() {
     if (data.token && data.isEmployee !== undefined) {
       localStorage.setItem('token', data.token);
       localStorage.setItem('isEmployee', data.isEmployee);
+      localStorage.setItem('idUsuario', data.id_usuario);
       const locate = determineLocation(data.isAdmin, data.isEmployee, data.id_usuario);
       window.location.href = locate;
       
     } else {
       toast.error( 
-        <div className="popup">
+        <div className="popup">                                                                                                                                                                                                                                                                                                   
         <div className="popup-header">
           <h3>Datos invalidos</h3>
         </div>
