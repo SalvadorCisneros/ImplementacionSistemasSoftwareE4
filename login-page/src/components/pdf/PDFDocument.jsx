@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0
   },
   tableColt: {
-    width: "33.3%",
+    width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -78,7 +78,7 @@ Font.register({ family: 'Roboto', src: 'https://fonts.gstatic.com/s/questrial/v1
 Font.register({ family: 'Sofis', src: "https://fonts.gstatic.com/s/cairo/v20/SLXVc1nY6HkvangtZmpcWmhzfH5lWWgsQQ.ttf" });
 
 
-const PDFDocument = ({ id_usuario, nombre, apellido, edad, telefono, antiguedad, universidad, direccion, estudio, potencial, ano_evaluacion_anual, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback, performance, key_talent, encuadre }) => {
+const PDFDocument = ({ id_usuario, nombre, apellido, edad, telefono, antiguedad, universidad, direccion, estudio, potencial, ano_evaluacion_anual, curva, upward_feedback, promedio_upward_feedback, comentarios_cliente_proveedor, promedio_cliente_proveedor, puntuacion_comentarios, comentarios_feedback, performance, key_talent, encuadre, jefe }) => {
 
 
   return (
@@ -228,6 +228,9 @@ const PDFDocument = ({ id_usuario, nombre, apellido, edad, telefono, antiguedad,
                     <View style={styles.tableColt}> 
                       <Text style={styles.tableCell}>Encuadre</Text> 
                     </View> 
+                    <View style={styles.tableColt}> 
+                      <Text style={styles.tableCell}>Jefe</Text> 
+                    </View> 
                   </View>
                   <View style={styles.tableRow}> 
                     <View style={styles.tableColt}> 
@@ -238,6 +241,9 @@ const PDFDocument = ({ id_usuario, nombre, apellido, edad, telefono, antiguedad,
                     </View> 
                     <View style={styles.tableColt}>
                       <Text style={styles.tableCell}>{encuadre}</Text> 
+                    </View>
+                    <View style={styles.tableColt}>
+                      <Text style={styles.tableCell}>{jefe}</Text> 
                     </View>
                   </View> 
                 </View>

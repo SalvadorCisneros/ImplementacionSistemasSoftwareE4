@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 0
   },
   tableColt: {
-    width: "33.3%",
+    width: "25%",
     borderStyle: "solid",
     borderWidth: 1,
     borderLeftWidth: 0,
@@ -216,6 +216,9 @@ export default function PDF() {
                     <View style={styles.tableColt}> 
                       <Text style={styles.tableCell}>Encuadre</Text> 
                     </View> 
+                    <View style={styles.tableColt}> 
+                      <Text style={styles.tableCell}>Jefe</Text> 
+                    </View> 
                   </View>
                   <View style={styles.tableRow}> 
                     <View style={styles.tableColt}> 
@@ -226,6 +229,9 @@ export default function PDF() {
                     </View> 
                     <View style={styles.tableColt}>
                       <Text style={styles.tableCell}>{location.state.encuadre}</Text> 
+                    </View>
+                    <View style={styles.tableColt}>
+                      <Text style={styles.tableCell}>{location.state.jefe}</Text> 
                     </View>
                   </View> 
                 </View>

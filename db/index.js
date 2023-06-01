@@ -113,7 +113,7 @@ app.put("/datospersonales/:id", async (req, res) => {
   });
   
 
-
+  app.use(express.json());
   app.post("/upload", (req, res) => {
     try {
       const { rows } = req.body;
@@ -179,10 +179,10 @@ app.put("/datospersonales/:id", async (req, res) => {
   
       if (Array.isArray(trayectoriaLaboral)) {
         for (const row of trayectoriaLaboral) {
-          const { id_usuario, performance, key_talent, encuadre } = row;
+          const { id_usuario, performance, key_talent, encuadre, jefe } = row;
           await pool.query(
-            "INSERT INTO trayectorialaboral (id_usuario, performance, key_talent, encuadre) VALUES ($1, $2, $3, $4)",
-            [id_usuario, performance, key_talent, encuadre]
+            "INSERT INTO trayectorialaboral (id_usuario, performance, key_talent, encuadre, jefe) VALUES ($1, $2, $3, $4, $5)",
+            [id_usuario, performance, key_talent, encuadre, jefe]
           );
         }
       }

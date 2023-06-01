@@ -31,6 +31,7 @@ export default function ProfileBox() {
   const [comentarios_feedback, setComentarios_feedback] = useState('');
   const [key_talent, setKey_talent] = useState('');
   const [encuadre, setEncuadre] = useState('');
+  const [jefe, setJefe] = useState('');
   const [editMode, setEditMode] = useState(false);
   const [showPdf, setShowPdf] = useState(false);
   const [downloadType, setDownloadType] = useState(null);
@@ -77,6 +78,7 @@ export default function ProfileBox() {
       setPerformance(profileData.performance);
       setKey_talent(profileData.key_talent);
       setEncuadre(profileData.encuadre);
+      setJefe(profileData.jefe);
     }
   }, [profileData]);
   
@@ -122,7 +124,8 @@ export default function ProfileBox() {
       puntuacion_comentarios,
       comentarios_feedback,
       key_talent,
-      encuadre
+      encuadre,
+      jefe
     };
     
   
@@ -170,6 +173,17 @@ export default function ProfileBox() {
     setEditMode(false);
   };
   
+  const validCharactersRegex = /^[A-Za-z\s]+$/;
+
+  const handleNombreChange = (e) => {
+    const inputValue = e.target.value;
+
+    // Verificar si los caracteres son válidos antes de actualizar el estado
+    if (validCharactersRegex.test(inputValue)) {
+      setNombre(inputValue);
+    }
+  };
+
   
 
   return (
@@ -219,7 +233,7 @@ export default function ProfileBox() {
                   <td>Nombre Completo:</td>
                   {editMode ? (
                     <td id='inp_box'>
-                      <input id='inp' type="text" value={nombre} onChange={(e) => setNombre(e.target.value)} />
+                      <input id='inp' type="name" value={nombre} onChange={(e) => setNombre(e.target.value)} />
                       <input id='inp' type="text" value={apellido} onChange={(e) => setApellido(e.target.value)} />
                     </td>
                   ) : (
@@ -423,6 +437,7 @@ export default function ProfileBox() {
               <th>Performance</th>
               <th>Key Talent</th>
               <th>Encuadre</th>
+              <th>Jefe</th>
             </tr>
           </thead>
           <tbody>
@@ -441,6 +456,11 @@ export default function ProfileBox() {
                 <input id='inp' type="text" value={encuadre} onChange={(e) => setEncuadre(e.target.value)} />
               ) : (
                 encuadre
+              )}</td>
+              <td>{editMode ? (
+                <input id='inp' type="text" value={jefe} onChange={(e) => setJefe(e.target.value)} />
+              ) : (
+                jefe
               )}</td>
             </tr>
           </tbody>

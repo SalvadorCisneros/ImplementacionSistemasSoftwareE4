@@ -17,19 +17,16 @@ export default function MainTable() {
   const navigate = useNavigate();
   const [rows, setRows] = useState([]);
   const [excelRows, setExcelRows] = useState([]);
-  const [excelRows2, setExcelRows2] = useState([]);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
-  
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      uploadExcelData(file);
+      uploadExcelData(file, handleUpload);
     }
   };
   
-  const uploadExcelData = (file) => {
+  const uploadExcelData = (file, callback) => {
     const reader = new FileReader();
   
     reader.onload = (event) => {
@@ -38,232 +35,154 @@ export default function MainTable() {
       const worksheet = workbook.Sheets[workbook.SheetNames[0]];
       const excelRows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
   
-      setExcelRows(excelRows); // Set the excelRows state variable
+      if (callback === handleUpload) {
+        setExcelRows(excelRows.slice(1)); // Set the excelRows state variable
+        callback(); // Call the callback function only when the data is loaded
+      }
     };
   
     reader.readAsArrayBuffer(file);
   };
   
-
-  const handleUpload = () => {
-    const requestBody = {
-      rows: excelRows.slice(1).map((row) => ({
-        id_usuario: row[0],
-        correo_ternium: row[1],
-        contrasena: row[2]
-      }))
-    };
+  const handleUpload = async () => {
+    // Check if excelRows is empty before proceeding
+    if (excelRows.length === 0) {
+      return;
+    }
   
-    fetch("http://localhost:5000/upload", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(requestBody),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        toast.success( 
-          <div className="popup">
-          <div className="popup-header">
-            <h3>¡Los datos se actualizaron correctamente!</h3>
-          </div>
-          <p className="popup-message">Los datos se actualizaron de manera exitosa.</p>
-          <button className="popup-button" onClick={() => toast.dismiss()}>
-            OK
-          </button>
-        </div>,  {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: {
-          background: '#ffffff',
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "black"
-          }
-        });
-      })
-      .catch((error) => {
-        toast.error( 
-          <div className="popup">
-          <div className="popup-header">
-            <h3>¡Lo sentimos a ocurrido un error!</h3>
-          </div>
-          <p className="popup-message"> {error }</p>
-          <button className="popup-button" onClick={() => toast.dismiss()}>
-            OK
-          </button>
-        </div>,  {
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        position: 'top-center',
-        autoClose: 3000,
-        hideProgressBar: true,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        style: {
-          background: '#ffffff',
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          color: "black"
-          }
-        });
+    const usuarios = excelRows.map((row) => ({
+      id_usuario: row[0],
+      correo_ternium: row[1],
+      contrasena: row[2],
+    }));
+  
+    const datosPersonales = excelRows.map((row) => ({
+      id_usuario: row[0],
+      nombre: row[3],
+      apellido: row[4],
+      antiguedad: row[5],
+      edad: row[6],
+      direccion: row[7],
+      estudio: row[8],
+      telefono: row[9],
+      universidad: row[10],
+      estructura_3: row[11],
+      estructura_4: row[12],
+      estructura_5: row[13],
+    }));
+  
+    const clienteProveedor = excelRows.map((row) => ({
+      id_usuario: row[0],
+      ano_evaluacion_anual: row[14],
+      potencial: row[15],
+      curva: row[16],
+      upward_feedback: row[17],
+      promedio_upward_feedback: row[18],
+      comentarios_cliente_proveedor: row[19],
+      promedio_cliente_proveedor: row[20],
+      puntuacion_comentarios: row[21],
+      comentarios_feedback: row[22],
+    }));
+  
+    const trayectoriaLaboral = excelRows.map((row) => ({
+      id_usuario: row[0],
+      performance: row[23],
+      key_talent: row[24],
+      encuadre: row[25],
+      jefe: row[26],
+    }));
+  
+    try {
+      await fetch("http://localhost:5000/upload", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ rows: usuarios }),
       });
-  };
-
-
-  const handleFileChange2 = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      uploadExcelData2(file);
-    }
-  };
   
-  const uploadExcelData2 = (file) => {
-    const reader = new FileReader();
+      await fetch("http://localhost:5000/empleados", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          datosPersonales,
+          clienteProveedor,
+          trayectoriaLaboral,
+        }),
+      });
   
-    reader.onload = (event) => {
-      const data = new Uint8Array(event.target.result);
-      const workbook = XLSX.read(data, { type: "array" });
-      const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-      const excelRows2 = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+        toast.success(
+          <div className="popup">
+            <div className="popup-header">
+              <h3>¡Los datos se actualizaron correctamente!</h3>
+            </div>
+            <p className="popup-message">Los datos se actualizaron de manera exitosa.</p>
+            <button className="popup-button" onClick={() => toast.dismiss()}>
+              OK
+            </button>
+          </div>,
+          {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+              background: "#ffffff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "black",
+            },
+          }
+        );
+      }
+      catch(error)  {
+        toast.error(
+          <div className="popup">
+            <div className="popup-header">
+              <h3>¡Lo sentimos, ha ocurrido un error!</h3>
+            </div>
+            <p className="popup-message">{error.message}</p>
+            <button className="popup-button" onClick={() => toast.dismiss()}>
+              OK
+            </button>
+          </div>,
+          {
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            position: "top-center",
+            autoClose: 3000,
+            hideProgressBar: true,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            style: {
+              background: "#ffffff",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              color: "black",
+            },
+          }
+        );
+      }};
+    
   
-      setExcelRows2(excelRows2); // Set the excelRows2 state variable
-    };
   
-    reader.readAsArrayBuffer(file);
-  };
   
-  // ...
   
-  const handleUpload2 = () => {
-    const requestBody = {
-      datosPersonales: excelRows2.slice(1).map((row) => ({
-        id_usuario: row[0],
-        nombre: row[1],
-        apellido: row[2],
-        antiguedad: row[3],
-        edad: row[4],
-        direccion: row[5],
-        estudio: row[6],
-        telefono: row[7],
-        universidad: row[8],
-        estructura_3: row[9],
-        estructura_4: row[10],
-        estructura_5: row[11],
-      })),
-      clienteProveedor: excelRows2.slice(1).map((row) => ({
-        id_usuario: row[0],
-        ano_evaluacion_anual: row[12],
-        potencial: row[13],
-        curva: row[14],
-        upward_feedback: row[15],
-        promedio_upward_feedback: row[16],
-        comentarios_cliente_proveedor: row[17],
-        promedio_cliente_proveedor: row[18],
-        puntuacion_comentarios: row[19],
-        comentarios_feedback: row[20],
-      })),
-      trayectoriaLaboral: excelRows2.slice(1).map((row) => ({
-        id_usuario: row[0],
-        performance: row[21],
-        key_talent: row[22],
-        encuadre: row[23],
-      })),
-    };
   
-    fetch("http://localhost:5000/empleados", {
-method: "POST",
-headers: {
-  "Content-Type": "application/json",
-},
-body: JSON.stringify(requestBody),
-})
-.then((response) => {
-  if (!response.ok) {
-    throw new Error("Error en la respuesta del servidor");
-  }
-  return response.json();
-})
-.then((data) => {
-  toast.success(
-    <div className="popup">
-      <div className="popup-header">
-        <h3>¡Los datos se actualizaron correctamente!</h3>
-      </div>
-      <p className="popup-message">Los datos se actualizaron de manera exitosa.</p>
-      <button className="popup-button" onClick={() => toast.dismiss()}>
-        OK
-      </button>
-    </div>,
-    {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      style: {
-        background: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "black",
-      },
-    }
-  );
-})
-.catch((error) => {
-  console.log(error);
-  toast.error(
-    <div className="popup">
-      <div className="popup-header">
-        <h3>¡Lo sentimos a ocurrido un error!</h3>
-      </div>
-      <p className="popup-message"> {error.message}</p>
-      <button className="popup-button" onClick={() => toast.dismiss()}>
-        OK
-      </button>
-    </div>,
-    {
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      position: "top-center",
-      autoClose: 3000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      style: {
-        background: "#ffffff",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "black",
-      },
-    }
-  );
-});
-  }
+  
   const handleAddEmployee = () => {
     setIsDialogOpen(true);
   };
@@ -352,7 +271,7 @@ body: JSON.stringify(requestBody),
     
     const promises = checkedRows.map((row) => {
       
-      return pdf(<PDFDocument id_usuario={row.id_usuario} nombre={row.nombre} apellido={row.apellido} edad={row.edad} telefono={row.telefono} antiguedad={row.antiguedad} universidad={row.universidad} direccion={row.direccion} estudio={row.estudio} potencial={row.potencial} ano_evaluacion_anual={row.ano_evaluacion_anual} curva={row.curva} upward_feedback={row.upward_feedback} promedio_upward_feedback={row.promedio_upward_feedback} comentarios_cliente_proveedor={row.comentarios_cliente_proveedor} promedio_cliente_proveedor={row.promedio_cliente_proveedor} puntuacion_comentarios={row.puntuacion_comentarios} comentarios_feedback={row.comentarios_feedback} performance={row.performance} key_talent={row.key_talent} encuadre={row.encuadre}/>).toBlob();  
+      return pdf(<PDFDocument id_usuario={row.id_usuario} nombre={row.nombre} apellido={row.apellido} edad={row.edad} telefono={row.telefono} antiguedad={row.antiguedad} universidad={row.universidad} direccion={row.direccion} estudio={row.estudio} potencial={row.potencial} ano_evaluacion_anual={row.ano_evaluacion_anual} curva={row.curva} upward_feedback={row.upward_feedback} promedio_upward_feedback={row.promedio_upward_feedback} comentarios_cliente_proveedor={row.comentarios_cliente_proveedor} promedio_cliente_proveedor={row.promedio_cliente_proveedor} puntuacion_comentarios={row.puntuacion_comentarios} comentarios_feedback={row.comentarios_feedback} performance={row.performance} key_talent={row.key_talent} encuadre={row.encuadre} jefe={row.jefe}/>).toBlob();  
     });
 
       const blobs = await Promise.all(promises);
@@ -524,6 +443,12 @@ body: JSON.stringify(requestBody),
         type: 'number',
         width: 90,
       },
+      {
+        field: 'jefe',
+        headerName: 'Jefe',
+        type: 'text',
+        width: 90,
+      },
 
       {
         field: 'fullName',
@@ -572,11 +497,7 @@ body: JSON.stringify(requestBody),
       <input type="file" accept=".xlsx,.xls" onChange={handleFileChange} />
         <button onClick={handleUpload}>Upload</button>
       </div>
-        
-      <div className="dialogCont">
-      <input type="file" accept=".xlsx,.xls" onChange={handleFileChange2} />
-        <button onClick={handleUpload2}>Upload</button>
-      </div>
+ 
         
         </div>
     
@@ -650,6 +571,7 @@ body: JSON.stringify(requestBody),
                 performance: params.row.performance,
                 key_talent: params.row.key_talent,
                 encuadre: params.row.encuadre,
+                jefe: params.row.jefe,
               },
             })
           }
